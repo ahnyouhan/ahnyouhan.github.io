@@ -354,6 +354,60 @@
         }
         .timeline-desc { color: var(--text-gray); font-size: 1.05rem; }
 
+        /* --- Certifications Section (Cards) --- */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .cert-date {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            background-color: #f0f7ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            width: fit-content;
+        }
+
+        .cert-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+            word-break: keep-all;
+            line-height: 1.3;
+        }
+
+        .cert-org {
+            font-size: 0.9rem;
+            color: #888;
+            margin: 0;
+        }
+
         /* --- Skills Section --- */
         .skill-category {
             margin-bottom: 3rem;
@@ -451,6 +505,8 @@
         .img-video { background: linear-gradient(135deg, #2b32b2, #1488cc); color: rgba(255,255,255,0.9); }
         .img-spi { background: linear-gradient(135deg, #134E5E, #71B280); color: rgba(255,255,255,0.9); }
         .img-riscv { background: linear-gradient(135deg, #F09819, #EDDE5D); color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* Multi-Cycle용 새로운 스타일 추가 (색상 변형) */
+        .img-riscv-multi { background: linear-gradient(135deg, #FF512F, #DD2476); color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .img-uart { background: linear-gradient(135deg, #232526, #414345); color: #00e676; }
         .img-fitness { background: linear-gradient(135deg, #4b6cb7, #182848); color: white; }
         .img-receipt { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; }
@@ -537,35 +593,41 @@
         
         .modal-header { 
             padding: 2.5rem 3rem 1.5rem; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; 
-            background-color: #fff; display: block; 
+            background-color: #fff; 
+            /* [수정] 기본 block으로 변경 (flex 제거) */
+            display: block; 
         }
         
         .modal-title-group h2 {
             font-family: var(--font-title); font-size: 2.2rem; color: var(--text-dark);
             margin-bottom: 0.8rem; line-height: 1.2;
+            padding-right: 60px; /* 닫기 버튼 공간 확보 */
+            word-break: keep-all; 
         }
         
+        /* [수정] 메타 로우를 Flexbox로 만들어서 날짜와 버튼을 양옆 배치 */
         .modal-meta-row {
             display: flex;
             align-items: center;
+            justify-content: space-between; /* 양쪽 끝 배분 */
             gap: 15px;
             flex-wrap: wrap;
+            width: 100%;
+            margin-top: 0.5rem; /* 제목과 간격 */
         }
 
         .modal-meta { 
             font-size: 1rem; color: #666; font-weight: 500; 
         }
         
-        /* 모달 깃허브 버튼 (우측 상단 X 버튼 아래로 고정 - 절대 위치) */
+        /* [수정] 모달 깃허브 버튼 (absolute 제거하고 flex 아이템으로 동작) */
         .modal-github-btn {
-            position: absolute; 
-            top: 4.5rem; /* X 버튼 아래 위치 */
-            right: 2rem; /* [수정] X 버튼과 라인(오른쪽 끝)을 2rem으로 통일 */
             display: inline-flex; align-items: center; gap: 0.5rem;
             background-color: #f5f7fa; color: #333;
             padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.85rem;
             text-decoration: none; font-weight: 600; border: 1px solid #e1e4e8;
             transition: all 0.2s ease;
+            flex-shrink: 0;
             z-index: 10;
         }
         .modal-github-btn:hover { background-color: #24292e; color: #fff; border-color: #24292e; }
@@ -582,7 +644,10 @@
         .modal-body::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
         .modal-body::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
-        .modal-section { margin-bottom: 4rem; }
+        .modal-section { 
+            margin-bottom: 4rem;
+            white-space: pre-line;
+        }
         
         .modal-section h3 {
             font-family: var(--font-subtitle); font-size: 1.35rem; font-weight: 700;
@@ -593,14 +658,62 @@
         
         .modal-section h3 i { color: var(--primary-blue); font-size: 1.2rem; }
         
-        .modal-section ul { padding-left: 0.5rem; list-style-type: none; }
-        .modal-section li { 
-            margin-bottom: 0.8rem; color: #444; position: relative; padding-left: 1.5rem;
+        /* 새로운 주요 구현 내용 아이템 스타일 */
+        .detail-item {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #f1f3f5;
+            padding-bottom: 2rem;
         }
-        .modal-section li::before {
+        .detail-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-text {
+            font-size: 1.05rem;
+            color: #444;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .detail-text::before {
             content: '\f00c'; /* Check icon */
-            font-family: 'Font Awesome 5 Free'; font-weight: 900;
-            color: var(--primary-blue); position: absolute; left: 0; top: 2px; font-size: 0.9rem;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--primary-blue);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* [수정] 이미지 위치 변경에 따른 마진 조정 */
+        .detail-image {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+            margin-bottom: 1.2rem; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+
+        /* [추가] 섹션별 이미지 컨테이너 스타일 */
+        .section-img-container {
+            margin-top: 1.5rem;
+            text-align: center;
+            display: none; /* 기본 숨김, JS로 이미지 있을 때만 표시 */
+            width: 100%;
+        }
+        .section-img-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
         }
         
         /* [수정] 트러블슈팅 박스 (Issue) */
@@ -619,6 +732,41 @@
         }
         .solution-box h4 { margin-top: 0; margin-bottom: 0.8rem; color: #1b5e20; font-size: 1.1rem; }
         .solution-box p { margin-bottom: 0; color: #1b5e20; }
+
+        /* [추가] 갤러리(결과 이미지) 컨테이너 스타일 */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 반응형 그리드 */
+            gap: 15px;
+            margin-top: 1rem;
+        }
+        
+        .gallery-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover; /* 썸네일처럼 꽉 차게 */
+            display: block;
+        }
+        
+        /* 클릭 시 원본 보기 (간단한 라이트박스 효과는 추후 추가 가능) */
+        .gallery-item a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
         .pdf-viewer-container {
             width: 100%; height: 500px; background-color: #f8f9fa;
@@ -670,14 +818,17 @@
             
             /* 모바일에서 GitHub 버튼 */
             .modal-github-btn {
-                position: static; margin-top: 1rem; width: 100%; justify-content: center; margin-right: 0;
+                /* [수정] 모바일에서는 정적 위치 유지, 마진 조정 */
+                position: static; margin-top: 1rem; width: 100%; justify-content: center; margin-right: 0; margin-left: 0;
             }
+            /* [수정] 모바일에서는 세로 정렬 */
             .modal-meta-row { flex-direction: column; align-items: flex-start; gap: 10px; }
             
             .bio-grid { grid-template-columns: repeat(2, 1fr); }
             
             /* 모달 모바일 대응 */
             .modal-content { height: 95vh; margin: 2.5vh auto; width: 95%; }
+            /* [수정] 모바일에서는 세로 배치 유지 */
             .modal-header { padding: 1.5rem; flex-direction: column; }
             .modal-body-content { padding: 1.5rem; }
             .profile-content h2 { font-size: 2.2rem; }
@@ -715,6 +866,10 @@
             <div class="subtitle">지원자 안유한</div>
             
             <div class="header-links">
+                <!-- [추가됨] 프로젝트 섹션 이동 버튼 -->
+                <a href="#projects" class="pill-btn">
+                    <i class="fas fa-laptop-code"></i> Projects
+                </a>
                 <!-- [수정 포인트] 상단 버튼 링크 및 텍스트 수정 -->
                 <a href="https://github.com/ahnyouhan" target="_blank" class="pill-btn">
                     <i class="fab fa-github"></i> GitHub
@@ -767,7 +922,7 @@
                     <div class="bio-icon"><i class="fas fa-phone-alt"></i></div>
                     <div class="bio-info">
                         <h4>연락처</h4>
-                        <p>010-1234-1234</p>
+                        <p>010-9540-7897</p>
                     </div>
                 </div>
                 <!-- 이메일 -->
@@ -801,20 +956,50 @@
             <div class="timeline">
                 <!-- [수정 포인트] 경력/학력 사항 수정 (복사해서 항목 추가 가능) -->
                 <div class="timeline-item">
+                    <span class="timeline-date">2025.07.01 - 2025.01.26 (950h)</span>
+                    <h3 class="timeline-title">[Harman] 세미콘아카데미-시스템반도체 설계/검증 엔지니어 과정 이수 중</h3>
+                    <p class="timeline-desc">VerilogHDL/SystemVerilog, Cortex-M ARM, ARM AMBA BUS, Embedded C, Python</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2024.02</span>
+                    <h3 class="timeline-title">LINC 3.0 사업단 캡스톤디자인 경진대회</h3>
+                    <p class="timeline-desc">AI 사물 인식 기반 실시간 스마트 주차 관제 시스템 &lt;스마트 주차장&gt; 입상</p>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-date">2024.07.01 - 2024.08.09 (240h)</span>
+                    <h3 class="timeline-title">2024년 AI 융합프로젝트 교육사업 (주관기업 ㈜스튜디오질풍)</h3>
+                    <p class="timeline-desc">AI 웹툰 배경 생성 커스터마이징 서비스 시스템 개발 참여</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <span class="timeline-date">2023.07.17 - 20232.07.19 (15h)</span>
+                    <h3 class="timeline-title">[IDEC] Verilog를 이용한 디지털 시스템 설계의 기초 수료</h3>
+                    <p class="timeline-desc">디지털 시스템 기초 교육 및 간단한 스톱워치 설계</p>
+                </div>
+
+                <div class="timeline-item">
                     <span class="timeline-date">2019.03 - 2026.02 (예정)</span>
-                    <h3 class="timeline-title">국립목포대학교 정보통신공학과 학사</h3>
-                    <p class="timeline-desc">임베디드 시스템 및 디지털 회로 설계 심화 전공 / 학점 4.0/4.5</p>
+                    <h3 class="timeline-title">국립목포대학교 정보통신공학과 졸업</h3>
+                    <p class="timeline-desc">정보통신공학과 / 학점 3.9/4.5</p>
                 </div>
-                <div class="timeline-item">
-                    <span class="timeline-date">2025.01 - 2025.02</span>
-                    <h3 class="timeline-title">FPGA 기반 디지털 회로 설계 전문가 과정 수료</h3>
-                    <p class="timeline-desc">Xilinx Vivado 및 Verilog HDL을 활용한 실무 프로젝트 수행 (총 160시간)</p>
+            </div>
+        </section>
+
+        <!-- [추가된 부분: 자격증 섹션 - 카드 형식] -->
+        <div class="section-divider"></div>
+
+        <section id="certifications">
+            <h2 class="section-title">Certifications</h2>
+            <div class="cert-grid">
+                <!-- [수정 포인트] 자격증 카드 수정 -->
+                <!-- 자격증 1 -->
+                <div class="cert-card">
+                    <span class="cert-date">2019.04</span>
+                    <h3 class="cert-title">컴퓨터활용능력 1급</h3>
+                    <p class="cert-org">대한상공회의소</p>
                 </div>
-                <div class="timeline-item">
-                    <span class="timeline-date">2024.11</span>
-                    <h3 class="timeline-title">교내 임베디드 시스템 경진대회 은상</h3>
-                    <p class="timeline-desc">영상 처리를 위한 하드웨어 가속기 설계 프로젝트</p>
-                </div>
+                
             </div>
         </section>
 
@@ -845,6 +1030,8 @@
                     <div class="skill-badge">Vivado</div>
                     <div class="skill-badge">Vitis</div>
                     <div class="skill-badge">STM32 CubeIDE</div>
+                    <div class="skill-badge">Linux</div>
+                    <div class="skill-badge">MATLAB</div>
                 </div>
             </div>
         </section>
@@ -906,6 +1093,34 @@
                 </div>
             </article>
 
+            <!-- [추가된 프로젝트] RISC-V Multi-Cycle Project -->
+            <article class="project-card" onclick="openModal('risc-v-multi')">
+                <div class="project-img-wrapper img-riscv-multi">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-title-group">
+                            <h3 class="project-title">RISC-V Multi-Cycle CPU & AMBA Bus</h3>
+                        </div>
+                    </div>
+                    <span class="project-period">2025.10</span>
+
+                    <div class="project-tags">
+                        <span class="tag">SystemVerilog</span>
+                        <span class="tag">C</span>
+                        <span class="tag">RISC-V</span>
+                        <span class="tag">AMBA Bus</span>
+                        <span class="tag">APB</span>
+                        <span class="tag">Verification</span>
+                        <span class="tag">Vitis</span>
+                    </div>
+                    <p class="project-desc">Multi-Cycle 구조로 Critical Path 개선 및 UART 통신
+                     시스템 제어 C 코드 구현</p>
+                    <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
+                </div>
+            </article>
+
             <!-- RISC-V Project -->
             <article class="project-card" onclick="openModal('risc-v')">
                 <div class="project-img-wrapper img-riscv">
@@ -920,12 +1135,15 @@
                     <span class="project-period">2025.09 ~ 2025.10</span>
 
                     <div class="project-tags">
-                        <span class="tag">RISC-V</span>
-                        <span class="tag">AMBA</span>
                         <span class="tag">SystemVerilog</span>
+                        <span class="tag">FPGA</span>
+                        <span class="tag">Computer Architecture</span>
+                        <span class="tag">RISC-V</span>
+                        <span class="tag">Verification</span>
                     </div>
-                    <p class="project-desc">Single-Cycle → Multi-Cycle + AMBA 버스 통합 (확장성 확보)
-                    프로세서 구조 설계 및 검증 환경 구축</p>
+                    <p class="project-desc">Single-Cycle 프로세서 구조 설계 및 검증 환경 구축
+
+                    </p>
                     <span class="team-badge"><i class="fas fa-users"></i> 3명 (팀 프로젝트)</span>
                 </div>
             </article>
@@ -938,7 +1156,7 @@
                 <div class="project-content">
                     <div class="project-header">
                         <div class="project-title-group">
-                            <h3 class="project-title">FPGA UART 통신 응용 프로젝트</h3>
+                            <h3 class="project-title">FPGA UART+FIFO 통신 응용 프로젝트</h3>
                         </div>
                     </div>
                     <span class="project-period">2025.08</span>
@@ -948,7 +1166,7 @@
                         <span class="tag">UART</span>
                         <span class="tag">Verilog</span>
                     </div>
-                    <p class="project-desc">Basys3 FPGA 기반 UART 통신 활용 스톱워치 및 센서 제어 구현
+                    <p class="project-desc">Basys3 FPGA 기반 UART 통신 활용 시계 및 스톱워치 구현
                     PC와 FPGA 간의 시리얼 통신 프로토콜 설계 및 디버깅</p>
                     <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
                 </div>
@@ -1076,12 +1294,13 @@
                     <h2 id="modal-title">Project Title</h2>
                     <div class="modal-meta-row">
                         <span id="modal-meta" class="modal-meta">Period / Team</span>
+                        <!-- [수정] 깃허브 버튼을 modal-meta-row 안으로 이동 -->
+                        <a href="#" id="modal-github-link" class="modal-github-btn" target="_blank">
+                            <i class="fab fa-github"></i> GitHub Source
+                        </a>
                     </div>
                 </div>
-                <!-- GitHub 버튼을 우측 상단 X 버튼 아래로 이동 -->
-                <a href="#" id="modal-github-link" class="modal-github-btn" target="_blank">
-                    <i class="fab fa-github"></i> GitHub Source
-                </a>
+                <!-- 기존 깃허브 버튼 위치 제거 -->
             </div>
 
             <div class="modal-body">
@@ -1099,15 +1318,54 @@
                     <div class="modal-section">
                         <h3><i class="fas fa-user-tag"></i> 역할</h3>
                         <ul id="modal-role"></ul>
+                        <!-- [추가] 역할 섹션 사진 공간 -->
+                        <div class="section-img-container">
+                            <img id="modal-role-img" src="" alt="Role Image">
+                        </div>
                     </div>
 
-                    <!-- 3. 상세 내용 섹션 (순서 변경: 위로 이동) -->
+                    <!-- 3. 상세 설명 (Description) - New -->
+                    <div id="modal-description-section" class="modal-section" style="display:none;">
+                         <!-- 수정됨: 상세 설명 -> 개발 환경 및 개요, 아이콘 변경 -->
+                         <h3><i class="fas fa-laptop-code"></i> 개발 환경 및 개요</h3>
+                         <p id="modal-description" style="white-space: pre-line; color: #444; line-height: 1.7;"></p>
+                         <!-- [추가] 상세 설명 섹션 사진 공간 -->
+                         <div class="section-img-container">
+                            <img id="modal-description-img" src="" alt="Description Image">
+                        </div>
+                    </div>
+
+                    <!-- 4. 상세 내용 (리스트) 섹션 (순서 변경: 위로 이동) -->
                     <div class="modal-section">
-                        <h3><i class="fas fa-list-ul"></i> 상세 내용</h3>
-                        <ul id="modal-details"></ul>
+                        <!-- 수정됨: 상세 내용 -> 주요 구현 내용, 아이콘 변경 -->
+                        <h3><i class="fas fa-check-square"></i> 주요 구현 내용</h3>
+                        <div id="modal-details-container">
+                            <!-- [수정] JS로 상세 내용 + 이미지를 렌더링하는 컨테이너 -->
+                        </div>
                     </div>
 
-                    <!-- 4. 트러블슈팅 섹션 (분리됨: Issue & Solution) -->
+                    <!-- 5. 블록도 섹션 (삭제됨) -->
+                    <!-- 원래 있던 modal-block-diagram-section 삭제 -->
+
+                    <!-- 6. 결과 이미지 (갤러리) 섹션 - New -->
+                    <div id="modal-gallery-section" class="modal-section" style="display:none;">
+                         <h3><i class="fas fa-images"></i> 결과 이미지</h3>
+                         <div id="modal-gallery" class="gallery-container">
+                             <!-- 이미지들이 여기에 동적으로 추가됨 -->
+                         </div>
+                    </div>
+
+                    <!-- 7. 검증 및 성과 섹션 (New) -->
+                    <div id="modal-verification-section" class="modal-section" style="display:none;">
+                        <h3><i class="fas fa-clipboard-check"></i> 검증 및 성과</h3>
+                        <ul id="modal-verification"></ul>
+                        <!-- [추가] 검증 섹션 사진 공간 -->
+                        <div class="section-img-container">
+                            <img id="modal-verification-img" src="" alt="Verification Image">
+                        </div>
+                    </div>
+
+                    <!-- 8. 트러블슈팅 섹션 -->
                     <div id="modal-troubleshooting-section" class="modal-section">
                         <h3><i class="fas fa-tools"></i> 트러블슈팅</h3>
                         
@@ -1124,15 +1382,15 @@
                         </div>
                     </div>
 
-                    <!-- 5. 고찰 섹션 -->
+                    <!-- 9. 고찰 섹션 -->
                     <div id="modal-reflections-section" class="modal-section" style="display:none;">
                         <h3><i class="fas fa-lightbulb"></i> 고찰</h3>
                         <p id="modal-reflections" style="white-space: pre-line; color: #444; line-height: 1.7;"></p>
                     </div>
 
-                    <!-- 6. 프로젝트 상세 문서 섹션 (PPT/PDF) -->
-                    <div id="modal-doc-section" class="modal-section" style="display:none;">
-                        <h3><i class="fas fa-file-pdf"></i> 프로젝트 상세 문서</h3>
+                    <!-- 10. 프로젝트 상세 문서 섹션 (PPT/PDF) - 맨 아래 고정 -->
+                    <div id="modal-doc-section" class="modal-section" style="display:none; border-top: 2px solid #eee; padding-top: 2rem; margin-top: 4rem;">
+                        <h3><i class="fas fa-file-pdf"></i> 프로젝트 문서 뷰어</h3>
                         <div class="pdf-viewer-container">
                             <iframe id="modal-doc-frame" src="" title="Project Document"></iframe>
                         </div>
@@ -1149,19 +1407,8 @@
     <script>
         /* =============================================================================
            [수정 포인트] 프로젝트 상세 데이터 설정 (JSON 형태)
-           
-           * 아래 projectData 변수 안에 프로젝트 ID(예: "video-filter")를 키로 사용하여 정보를 입력합니다.
-           * 각 항목 설명:
-             - title: 프로젝트 제목
-             - period: 진행 기간 및 인원
-             - summary: 짧은 요약 (개요)
-             - reflections: 배운 점, 느낀 점 (고찰)
-             - troubleshooting: { issue: "문제점...", solution: "해결책..." } 형태의 객체로 분리
-             - docUrl: PDF/PPT 파일 경로 (예: "./assets/docs/my_project.pdf")
-             - github: 해당 프로젝트의 GitHub 리포지토리 주소
-             - details: 상세 내용 리스트 (문자열 배열)
-             - role: 본인의 역할 리스트 (문자열 배열)
-             - tags: 사용 기술 태그 리스트
+           * description: 상세 설명 (줄글 형태) - 추가됨
+           * resultImages: 결과 이미지 경로 배열 - 추가됨
            =============================================================================
         */
         const projectData = {
@@ -1174,24 +1421,38 @@
                     issue: "초기 라인 버퍼 설계 시 타이밍 위반 문제가 발생했습니다.",
                     solution: "파이프라인 단계를 추가하여 경로 지연을 줄이고, 클럭 주파수를 최적화하여 해결했습니다."
                 },
-                
-                // [수정 포인트] PDF 파일 경로 예시: docUrl: "./assets/pdf/video_filter.pdf" 
-                // 파일이 없으면 빈 문자열 "" 로 두세요.
                 docUrl: "", 
                 
-                // [수정 포인트] 프로젝트별 GitHub 주소 입력
+                // [추가] 각 섹션별 이미지 경로 (비워두면 표시 안 됨)
+                roleImg: "",
+                descriptionImg: "",
+                verificationImg: "",
+
                 github: "https://github.com/ahnyouhan",
-                
+                resultImages: [], // 예: ["./assets/images/result1.png", "./assets/images/result2.png"]
+                description: `[개발 환경]
+- **Language:** Verilog HDL
+- **Tool:** Xilinx Vivado
+- **FPGA:** Basys3 / Zybo Z7 (예정)
+
+[아키텍처 개요]
+카메라 모듈로부터 입력받은 RGB 데이터를 FPGA 내부의 Logic으로 실시간 처리하여 VGA/HDMI 모니터로 출력하는 시스템입니다. 단순한 Passthrough를 넘어 Convex Lens 효과와 Grayscale 변환 등의 필터 로직을 하드웨어로 구현했습니다.`,
+                // [수정] details를 객체 배열로 변경하여 각 항목에 이미지를 넣을 수 있게 함
                 details: [
-                    "FPGA 보드를 활용하여 실시간 카메라 영상 입력 처리",
-                    "Convex Lens, Grayscale 등 다양한 필터 알고리즘을 Verilog로 하드웨어 구현",
-                    "라인 버퍼(Line Buffer) 설계를 통한 실시간 데이터 처리 최적화",
-                    "VGA 타이밍 컨트롤러 직접 설계 및 모니터 출력 구현"
+                    { text: "<b>Camera Interface:</b> I2C 프로토콜을 이용한 카메라 초기화 및 데이터 수신 모듈 구현" },
+                    { text: "<b>Image Processing Core:</b> 실시간 픽셀 연산을 위한 Combinational Logic 설계 (Convex Lens 왜곡 알고리즘 적용)", img: "" }, // 여기에 이미지 경로 추가 가능
+                    { text: "<b>Memory Controller:</b> Line Buffer를 활용하여 실시간 스트리밍 데이터 버퍼링 및 동기화" },
+                    { text: "<b>Display Controller:</b> VGA Timing Generator (HSync, VSync) 설계 및 RGB 출력" }
                 ],
                 role: [
-                    "라인 버퍼 아키텍처 설계 및 구현",
-                    "VGA 컨트롤러 및 타이밍 제어 로직 작성",
-                    "팀원 코드 통합 및 전체 시스템 디버깅"
+                    "<b>Line Buffer 설계:</b> Block RAM(BRAM)을 활용한 3-Line Buffer 구조 설계 및 Read/Write FSM 구현",
+                    "<b>Timing Control:</b> Pixel Clock 생성 및 디스플레이 타이밍 제어 로직 작성",
+                    "<b>Integration:</b> 팀원들이 개발한 필터 모듈을 Top Level에서 통합 및 디버깅"
+                ],
+                verification: [
+                    "<b>Simulation:</b> Testbench를 통해 픽셀 데이터의 입출력 타이밍 검증",
+                    "<b>Hardware Test:</b> ILA(Integrated Logic Analyzer)를 활용하여 실제 보드에서의 신호 무결성 확인",
+                    "<b>Visual Verification:</b> 실제 모니터 출력을 통해 필터 적용 여부 및 화질 테스트"
                 ],
                 tags: ["Verilog", "FPGA", "Image Processing"]
             },
@@ -1206,70 +1467,240 @@
                 reflections: "AMBA 프로토콜을 직접 구현하며 SoC 내부 통신 구조를 깊이 이해했습니다. 특히 마스터와 슬레이브 간의 핸드쉐이킹 과정을 디버깅하며 타이밍 제어의 중요성을 체감했습니다.",
                 docUrl: "", 
                 github: "https://github.com/ahnyouhan",
+                resultImages: [],
+                description: `[개발 환경]
+- **Language:** SystemVerilog, C
+- **IDE:** Vivado, Vitis
+- **Hardware:** FPGA Board (Basys3)
+
+[프로젝트 개요]
+Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습니다. AMBA AXI4-Lite 버스 프로토콜을 준수하여 프로세서가 SPI/I2C 주변 장치를 제어할 수 있도록 인터페이스를 구축했습니다.`,
                 details: [
-                    "AMBA AXI4-Lite 인터페이스 규격 분석 및 슬레이브 IP 설계",
-                    "SPI Master/Slave 및 I2C Master 모듈 Verilog 구현",
-                    "Xilinx Vitis를 활용한 C 언어 드라이버 작성 및 펌웨어 테스트",
-                    "Microblaze Soft Core와 커스텀 IP 연동 검증"
+                    { text: "<b>AXI4-Lite Interface:</b> Master(CPU)의 Read/Write 요청을 처리하는 Slave Interface Logic 구현" },
+                    { text: "<b>SPI Master:</b> CPOL, CPHA 모드를 지원하는 직렬 통신 로직 및 Shift Register 설계" },
+                    { text: "<b>I2C Master:</b> Start/Stop Condition, ACK 체크를 포함한 2-Wire 통신 FSM 설계" },
+                    { text: "<b>Driver Development:</b> Vitis 환경에서 해당 IP를 제어하기 위한 C언어 펌웨어 작성" }
                 ],
                 role: [
-                    "전체 시스템 구조 설계 및 RTL 코딩",
-                    "Testbench 작성을 통한 시뮬레이션 검증",
-                    "FPGA 보드(Basys3) 실장 테스트"
+                    "<b>RTL Design:</b> SystemVerilog를 이용한 AXI Slave 및 통신 프로토콜 모듈 전체 설계",
+                    "<b>Verification:</b> Testbench 및 AXI Verification IP(VIP)를 활용한 시뮬레이션",
+                    "<b>On-Board Test:</b> Microblaze 시스템에 IP 통합 후 실제 센서 데이터 수신 테스트"
+                ],
+                verification: [
+                    "<b>Simulation:</b> Vivado Simulator에서 AXI 트랜잭션 파형 분석",
+                    "<b>Loopback Test:</b> TX/RX 핀을 물리적으로 연결하여 데이터 송수신 무결성 검증",
+                    "<b>Sensor Interfacing:</b> 실제 가속도 센서 및 온도 센서와 연결하여 데이터 Read 확인"
                 ],
                 tags: ["SystemVerilog", "Microblaze", "AXI"]
             },
-            "risc-v": {
-                title: "RISC-V Core 구현 및 검증",
-                period: "2025.09 ~ 2025.10 (3명 / 팀 프로젝트)",
-                summary: "RISC-V 32I 명령어 집합을 지원하는 프로세서 코어를 설계했습니다.",
-                troubleshooting: {
-                    issue: "파이프라인 해저드 처리가 복잡하여 데이터 일관성 문제가 발생했습니다.",
-                    solution: "Forwarding Unit을 체계적으로 설계하고, Load-Use Hazard 감지 로직을 보강하여 해결했습니다."
-                },
-                reflections: "프로세서의 동작 원리를 밑바닥부터 구현하며 컴퓨터 구조에 대한 이해도가 크게 향상되었습니다. 팀원들과 모듈별로 역할을 분담하고 인터페이스를 맞추는 과정에서 협업 능력도 길렀습니다.",
-                docUrl: "", 
-                github: "https://github.com/ahnyouhan",
+            "risc-v-multi": {
+                title: "RISC-V Multi-Cycle CPU & AMBA Bus",
+                period: "2025.10 (1명 / 개인 프로젝트)",
+                summary: [
+                    "<b>1. 프로젝트 개요</b>",
+                    " 기존 Single-Cycle의 단점을 보완 하고자 <b>Multi-Cycle구조로 설계 및 검증</b>을하고 표준 버스 프로토콜인  AMBA APB를 통해 UART 통신 모듈을 연동하여, 최종적으로 <b>하드웨어와 소프트웨어가 통합된 시스템</b> 구현하였습니다.\n",
+                    "<b>2. 개발 목표</b>",
+                    "- 기존 Single-Cycle 프로세서의 긴 <b>Critical Path</b> 문제를 해결하기 위해 <b>Multi-Cycle 구조</b>로 확장 설계.",
+                    "- 버스 시스템 구축: <b>AMBA APB 버스 시스템</b>을 구축하여 CPU와 <b>주변장치(Peripheral) 간의 인터페이스 구현</b>.",
+                    "- UART 통합: UART IP를 설계하고 APB 버스에 연결하여 <b>외부 PC(ComPortMaster)와의 시리얼 통신 기능 구현.</b>",
+                    "- 소프트웨어 개발: 설계된 <b>SoC 시스템 제어를 위한 C 코드</b> 개발"
+                ].join("\n"),
+                description: `
+- **Language:** SystemVerilog, C
+- **IDE:** Xilinx Vivado, Vitis
+- **FPGA:** Basys3 (Artix-7)
+`,
                 details: [
-                    "Single-Cycle 구조에서 시작하여 Multi-Cycle 구조로 고도화",
-                    "Control Unit 및 Data Path 전체 설계",
-                    "Hazard Detection 및 Forwarding Unit 구현으로 파이프라인 최적화",
-                    "SystemVerilog를 활용한 모듈 검증"
+                    {
+                        text: [
+                            "<b>구조: </b>단일 사이클(Single-cycle)의 <b>긴 클럭 주기 문제를 해결</b>하기 위해, 명령어 처리를 <b>여러 클럭 사이클(Fetch, Decode, Execute, Memory, Write Back)로 분리</b>하고 각 단계 사이 <b>플립플롭을 추가하여 처리하는 Multi-Cycle 구조</b>를 채택했습니다.",
+                        ],
+                        img: "assets/images/risc-v_multi/top.png"
+                    },
+                    {
+                        text: [
+                            "<b>AMBA APB Bus</b> 설계",
+                            "- <b>목적: </b>MCU가 제어해야 하는 UART, 센서 등 <b>저속 주변 장치를 효율적으로 제어</b>하기 위해 표준 인터페이스인 <b>APB(Advanced Peripheral Bus) 프로토콜을 구현</b>했습니다.",
+                            "- <b>동작 원리: Master와 Slave 간의 통신</b>을 위해 <b>IDLE, SETUP, ACCESS</b> 상태를 갖는 FSM을 설계하였으며, <b>PSEL, PENABLE, PREADY</b> 등의 신호를 이용해 데이터 읽기/쓰기 트랜잭션을 제어합니다."
+                        ].join("\n\n"),
+                        img: "assets/images/risc-v_multi/fsm.png"
+                    },
+                    {
+                        text: [
+                            "<b>UART Peripheral 및 FIFO</b> 설계\n",
+                            "<b>- 통합: </b><b>APB Slave Interface를 갖춘 UART 모듈을 설계</b>하여 시스템 버스에 연동했습니다.",
+                            "<b>- 기능</b>: 데이터 송수신의 안정성을 위해 <b>TX/RX FIFO를 내장</b>했습니다.\n",
+                            "<b>- 레지스터 맵:</b>",
+                            "TxData (0x0): 송신 데이터 버퍼 (Write).",
+                            "RxData (0x4): 수신 데이터 버퍼 (Read Only).",
+                            "Status (0x8): 수신 데이터 유무(RxValid) 및 FIFO 상태(TxFull) 확인."
+                        ].join("\n"),
+                        img: "assets/images/risc-v_multi/uart.png"
+                    },
+                    {
+                        text:[
+                            "<b>검증 및 소프트웨어 (C Code)\n",
+                            "<b>검증: </b>Transaction, Driver, Monitor</b> 구조를 갖춘 테스트벤치를 통해 APB-UART 통신의 데이터를 검증했습니다(Pass/Fail 판정).\n",
+                            "<b>소프트웨어: </b>UART로 수신된 <b>명령어('L', 'R', '0')에 따라 LED 모드(좌/우 시프트)를 변경</b>하거나 <b>GPIO를 제어하는 C 코드</b>를 작성하여 실제 보드에서의 동작을 확인했습니다. 스위치 입력에 따른 디바운싱 및 엣지 디텍션 로직도 포함되었습니다."
+                        ].join("\n")
+                    }
                 ],
                 role: [
-                    "ALU 및 Register File 설계",
-                    "Control Unit FSM 설계",
-                    "명령어 검증을 위한 어셈블리 테스트 코드 작성"
+                    "<b>RTL 설계:</b> RISC-V <b>Multi-cycle Core</b>, <b>APB Bus</b>, <b>UART+FIFO Peripheral</b> 설계.",
+                    "<b>검증 : Class 기반 검증</b> 환경 구성",
+                    "<b>펌웨어 설계: 하드웨어 제어를 위한 C 코드</b> 작성"
                 ],
-                tags: ["RISC-V", "AMBA", "SystemVerilog"]
+                verification: [
+                    "<b>Transaction Based Verification:</b> AHB 프로토콜의 Read/Write 트랜잭션 단위 검증 수행",
+                    "<b>Timing Simulation:</b> Multi-Cycle 동작 시 클럭 엣지에 따른 신호 안정성 및 Setup/Hold Time 위반 여부 확인",
+                    "<b>FPGA Prototyping:</b> Basys3 보드에 비트스트림을 업로드하여 실제 I/O 동작(스위치 입력, LED 출력) 확인"
+                ],
+                troubleshooting: {
+                    issue: "AHB 버스의 HREADY 신호 처리 미숙으로 인해 Slave가 준비되지 않은 상태에서 데이터가 넘어가는 타이밍 오류 발생",
+                    solution: "Master의 FSM에 Wait State를 추가하고, HREADYout 신호를 모니터링하여 데이터 페이즈(Data Phase)를 지연시키는 로직을 추가하여 핸드쉐이킹 문제를 해결함"
+                },
+                reflections: "표준 버스 프로토콜을 직접 구현해보며 SoC 내부 통신의 핵심인 <b>핸드쉐이킹(Handshaking)과 타이밍 제어</b>의 중요성을 깊이 이해했습니다. 또한, Single-Cycle에서 Multi-Cycle로의 전환 과정을 통해 <b>Trade-off(면적 vs 속도)</b> 관계를 체감하고 아키텍처 설계에 대한 시야를 넓혔습니다.",
+                docUrl: "assets/pdf/RISC-V_AMBA_Peripheral_Design.pdf", 
+                github: "https://github.com/ahnyouhan/project-RISC-V_APB_GPO_I_IO_UART", // 필요시 수정
+                resultImages: [],
+                tags: ["SystemVerilog", "C", "RISC-V", "AMBA Bus", "APB", "Verification", "Vitis"]
+            },
+            "risc-v": {
+                title: "RISC-V RV32I Single-Cycle CPU",
+                period: "2025.09 ~ 2025.10 (3명 / 팀 프로젝트)",
+                summary: [
+                    "<b>1. 프로젝트 소개</b>\n본 프로젝트는 <b>SystemVerilog</b>를 사용하여 오픈소스 명령어 집합 구조(ISA)인 <b>RISC-V 기반의 32-bit Single Cycle 프로세서(RV32I)</b>를 설계하고, 신뢰성 높은 동작 검증을 위해 Transaction 기반의 자동화된 검증 환경을 구축한 하드웨어 설계 프로젝트입니다",
+                    "<b>2. 개발 목표</b>\n- RISC-V RV32I의 <b>R, I, S, B, U, J Type</b>을 하드웨어로 구현\n- 구조적 설계: <b>제어 장치(Control Unit)와 데이터 경로(DataPath)를 분리</b>하여 명령어 인출(Fetch)부터 실행(Execute), 쓰기(Write Back)까지의 5단계 흐름을 <b>단일 사이클(Single Cycle)</b> 내에 최적화하여 설계. \n- <b>Generator→Driver→Monitor→Scoreboard</b>로 이어지는 계층적 테스트벤치(Layered Testbench)를 구축하여 <b>Pass/Fail</b>을 자동 판별하는 검증 시스템 구현"
+                ].join("\n\n"),
+                description: `
+- **Language:** SystemVerilog
+- **IDE:** Xilinx Vivado
+- **FPGA:** Basys3 (Artix-7)`,
+                details: [
+                    { 
+                        text: [
+                            "RISC-V RV32I ISA를 기반으로 한 Single Cycle CPU입니다. 모든 명령어는 <b>한 클럭 사이클(1 Clock Cycle) 내에 인출(Fetch) - 해석(Decode) - 실행(Execute) - 메모리(Memory) - 쓰기(Write Back)</b> 의 5단계 과정을 완료하도록 설계하였습니다.", 
+                            "<b>- Control Unit: </b>령어를 <b>해독(Decode)</b>하여 각 하드웨어 모듈이 수행해야 할 동작을 지시하는 <b>제어 신호(Control Signal)</b>를 생성합니다.",
+                            "<b>- Datapath: </b>레지스터, ALU, PC 등으로 구성되어 있으며, 제어 신호에 따라 실제 <b>데이터의 이동, 산술/논리 연산, 주소 계산</b>을 수행합니다.",
+                            "<b>- ROM (Instruction Memory): </b>실행할 <b>프로그램 코드(명령어)</b>를 보관하고 있으며, 현재 PC(Program Counter)가 가리키는 주소의 명령어를 CPU로 전달합니다",
+                            "<b>- RAM (Data Memory): </b>프로그램 실행 중에 발생하는 <b>데이터(변수, 스택 등)</b>를 저장하거나 불러오는 역할을 합니다.",
+
+                        ].join("\n\n") ,
+                        img: "assets/images/risc-v_single/top.jpg"
+                    },
+                    {
+                        text: [
+                            "<b>검증 구현 기능</b>",
+                            "<b>- [R-Type]</b> add, sub, and, or, xor, sll, srl, sra, slt, sltu 등의 산술/논리/시프트 연산 동작 검증",
+                            "<b>- [I-Type]</b> addi, andi, ori, lw, jalr, slli, srli 등 상수 연산 및 로드 명령어 검증",
+                            "<b>- [S-Type]</b> sw, sh, sb로 특정 주소에 word, half word, byte 단위로 저장되는 동작을 검증",
+                            "<b>- [J-Type]</b> jal, jalr의 주소 이동으로 함수 호출 및 복귀 과정 검증"
+                        ].join("\n"),
+                         img: "assets/images/risc-v_single/verification_top.png"
+                    }
+                ],
+                role: [
+                    "<b>공통 역할 - 개인 프로세서 설계 및 검증 환경을 구축하기 위한 코드 싱크 조정</b>",
+                    "김호준: <b>R, I 타입 검증</b>",
+                    "김태형: <b>S, L 타입 검증</b>",
+                    "<b>안유한(본인): L, J 타입 검증<b>"
+                ],
+                verification: [
+                    "<b>RISC-V RV32I CPU</b>: SystemVerilog를 사용하여 제어 장치(Control Unit)와 데이터 경로(DataPath)를 포함한 32비트 프로세서의 하드웨어 설계를 완성 ",
+                    "<b>Instruction Verification:</b> R, I, S, L, J 명령어 타입에 대한 랜덤 테스트를 수행하여 100% 통과(Pass)하였습니다.",
+                    "<b>자동화 검증 환경 구축:</b> 랜덤 명령어 생성부터 결과 비교까지 자동으로 수행하는 계층적 테스트벤치(Generator-Driver-Monitor-Scoreboard)를 구축하여 신뢰성을 확보했습니다.",
+                    "<b>타이밍 이슈 해결:</b> Load 명령어 검증 시 발생한 신호 지연 문제를 1ns 딜레이 추가를 통해 해결하며 설계의 완성도를 높였습니다 ."
+                ],
+                troubleshooting: {
+                    issue: "RAM을 Byte 단위 동작으로 설계하여 L-Type 명령어를 검증하는 과정에서, 시뮬레이션 상의 신호 갱신 타이밍 문제로 인해 값이 갱신되기 전의 데이터를 읽어오는 등 검증의 불확실성이 발생함.",
+                    solution: "테스트벤치의 Monitor 동작 시 #1 (1ns 지연) 코드를 추가하여, 클럭의 상승 엣지(Positive Edge) 직후 신호가 완전히 안정화된 시점에 데이터를 샘플링하도록 수정함으로써 정확한 타이밍 검증을 수행함."
+                },
+                reflections: [
+                    "<b>스택 포인터 레지스터</b>가 하드웨어적으로 어떻게 활용되는지 이해하였습니다. <b>함수 호출(JAL) 시 복귀 주소(ra, x1)를 보존</b>하고 스택 프레임을 생성하기 위해, <b>ADDI 명령어로 SP 값을 조절</b>하고 <b>SW/LW 명령어로 메모리 스택 영역에 접근</b>하는 일련의 과정이 DataPath 상에서 충돌 없이 수행되도록 설계했습니다. 이를 통해 <b>소프트웨어의 함수 호출 규약(Calling Convention)이 실제 하드웨어의 ALU 연산 및 메모리 인터페이스와 어떻게 맞물려 돌아가는지 체화했습니다.</b>",
+                    "또한 ISA의 규칙성이 가져오는 하드웨어 설계의 효율성, <b>6가지 명령어 포맷(R, I, S, B, U, J)을 구현</b>하며, <b>소스 레지스터(rs1, rs2)와 목적지 레지스터(rd)의 위치가 고정된 규칙적인 구조</b> 덕분에 명령어 디코딩(Decoding) 회로를 효율적으로 설계할 수 있음을 확인했습니다. 이는 복잡한 제어 로직을 단순화하여 하드웨어 <b>자원을 절약하는 RISC 아키텍처의 철학</b>을 설계 단계에서 직접 경험한 계기였습니다."
+                ].join("\n\n"),
+                docUrl: "assets/pdf/RISC-V설계.pdf", 
+                github: "https://github.com/ahnyouhan/project-RISC-V_SingleCycle_verification",
+                resultImages: [],
+                tags: ["Verilog", "FPGA", "Computer Architecture", "RISC-V", "Verification"]
             },
             "uart": {
-                title: "FPGA UART 통신 응용 프로젝트",
+                github: "https://github.com/ahnyouhan/project-UART-Stopwatch_Watch",
+                title: "FPGA UART+FIFO 통신 응용 프로젝트",
                 period: "2025.08.23 ~ 2025.08.27 (1명 / 개인 프로젝트)",
-                summary: "PC와 FPGA 간의 UART 시리얼 통신을 구현하여 주변장치를 제어했습니다.",
+                summary:[
+                    "PC와 FPGA 간의 UART 시리얼 통신을 통해 스톱워치 및 시계 기능을 제어하는 시스템입니다.",
+                    ""
+
+                ].join("\n"),
+
+                description: `**[개발 환경]**
+- **Language:** Verilog HDL
+- **Tool:** Xilinx Vivado
+- **FPGA:** Basys3 (Artix-7)
+
+[프로젝트 개요]
+UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미널과 데이터를 주고받습니다. 수신된 명령어에 따라 FPGA 내부의 스톱워치/시계 로직을 제어하고, 현재 시간을 7-Segment Display로 출력합니다.`,
+                // [수정] details 항목에 이미지 경로를 넣을 수 있도록 객체로 변경. 예시로 첫 번째 항목에 이미지 공간 마련.
+                details: [
+                    { 
+                        text: "<b>Baud Rate Generator:</b> 100MHz 시스템 클럭을 분주하여 9600bps 통신 속도에 맞는 Sampling Tick 생성",
+                        img: "" // 여기에 이미지 경로 입력
+                    },
+                    { 
+                        text: "<b>UART Transceiver:</b> Start bit, Data bits(8), Stop bit를 처리하는 RX/TX FSM 설계 및 FIFO 버퍼 적용",
+                        img: "" 
+                    },
+                    { text: "<b>Command Decoder:</b> 'r'(Run/Stop), 'c'(Clear), 'S/M/H'(Set Time) 등의 ASCII 코드를 해석하여 제어 신호 생성" },
+                    { text: "<b>Watch/Stopwatch Core:</b> 1/100초 단위 정밀 타이머 로직 및 모드 전환 기능 구현" }
+                ],
+                role: [
+                    "<b>RTL Design:</b> UART 통신 모듈 및 데이터 처리 로직 전체 설계",
+                    "<b>Testbench:</b> PC와의 통신 시나리오를 가정한 시뮬레이션 환경 구축",
+                    "<b>Validation:</b> TeraTerm을 이용한 실제 PC 통신 및 보드 동작 검증"
+                ],
+                verification: [
+                    "<b>Loopback Test:</b> PC에서 보낸 문자가 FPGA를 거쳐 다시 PC로 정확히 돌아오는지 확인",
+                    "<b>Timing Analysis:</b> 오실로스코프로 TX 핀의 파형을 찍어 Baud Rate 정확도 측정",
+                    "<b>Functional Test:</b> 다양한 키보드 입력에 따른 스톱워치 동작 반응성 확인"
+                ],
                 troubleshooting: {
                     issue: "Baud Rate 오차로 인한 통신 깨짐 현상이 있었습니다.",
-                    solution: "FPGA 클럭 주파수에 맞춰 분주비를 정밀하게 재계산하여 통신 안정성을 확보했습니다."
+                    solution: "FPGA 클럭 주파수에 맞춰 분주비를 정밀하게 재계산하여 오차율을 허용 범위(±2%) 이내로 줄여 통신 안정성을 확보했습니다."
                 },
                 reflections: "비동기 시리얼 통신의 원리를 확실히 익혔습니다. 하드웨어 레벨에서 통신 프로토콜을 구현하며 데이터 송수신 타이밍과 동기화 이슈를 다루는 경험이 되었습니다.",
                 docUrl: "", 
-                github: "https://github.com/ahnyouhan",
-                details: [
-                    "UART Transmitter/Receiver 모듈 Verilog 설계",
-                    "Baud Rate Generator 구현 (9600bps)",
-                    "PC 터미널 입력을 받아 FPGA의 FND 및 LED 제어",
-                    "스톱워치 데이터 실시간 PC 전송 기능 구현"
-                ],
-                role: [
-                    "UART 프로토콜 분석 및 전체 RTL 설계",
-                    "하드웨어 디버깅 및 타이밍 이슈 해결"
-                ],
+                
+                // [수정 포인트] 블록도 이미지 경로
+                resultImages: [],
                 tags: ["Basys3", "UART", "Verilog"]
             },
             "fitness": {
                 title: "피트니스 아이템 통합 검색기",
                 period: "2025.07 (4명 / 팀 프로젝트)",
                 summary: "여러 쇼핑몰의 피트니스 용품 가격을 비교해주는 웹 크롤링 서비스입니다.",
+                description: `[개발 환경]
+- **Language:** Python, HTML/CSS
+- **Libraries:** Selenium, BeautifulSoup, Flask
+- **Platform:** Web Browser
+
+[프로젝트 개요]
+다양한 온라인 쇼핑몰에 흩어져 있는 피트니스 용품 정보를 한곳에서 비교할 수 있는 서비스입니다. Python을 이용해 데이터를 수집하고, 웹 인터페이스를 통해 사용자에게 최저가 정렬 및 필터링 기능을 제공합니다.`,
+                details: [
+                    { text: "<b>Web Crawler:</b> Selenium과 BeautifulSoup을 연동하여 동적/정적 웹페이지 데이터 수집" },
+                    { text: "<b>Data Parser:</b> 비정형 HTML 데이터에서 상품명, 가격, 이미지, 링크 정보 정규화" },
+                    { text: "<b>Web Server:</b> Flask 프레임워크를 활용하여 수집된 데이터를 JSON 형태로 프론트엔드에 전달" },
+                    { text: "<b>UI/UX:</b> 사용자 친화적인 검색 인터페이스 및 상품 카드 레이아웃 구현" }
+                ],
+                role: [
+                    "<b>Crawling Logic:</b> 주요 쇼핑몰(쿠팡, 네이버 쇼핑 등) DOM 구조 분석 및 크롤링 스크립트 작성",
+                    "<b>Data Cleaning:</b> 가격 정보의 문자열 처리 및 중복 데이터 제거 로직 구현"
+                ],
+                verification: [
+                    "<b>Unit Test:</b> 각 쇼핑몰별 파싱 로직에 대한 단위 테스트 수행",
+                    "<b>E2E Test:</b> 실제 검색 키워드 입력부터 결과 출력까지의 전체 흐름 검증",
+                    "<b>Performance Test:</b> 다중 스레딩 적용 전후의 데이터 수집 속도 비교"
+                ],
                 troubleshooting: {
                     issue: "동적 웹페이지 크롤링 시 데이터 로딩 지연 문제가 있었습니다.",
                     solution: "Selenium의 WebDriverWait를 적절히 활용하여 데이터가 로드될 때까지 기다리도록 수정했습니다."
@@ -1277,22 +1708,36 @@
                 reflections: "웹 데이터 수집부터 프론트엔드 표출까지 전체적인 서비스 흐름을 경험했습니다. 팀원들과 데이터를 어떻게 효율적으로 공유할지 고민하며 데이터베이스 설계의 중요성을 깨달았습니다.",
                 docUrl: "", 
                 github: "https://github.com/ahnyouhan",
-                details: [
-                    "Python Selenium/BeautifulSoup을 이용한 웹 크롤러 개발",
-                    "다양한 쇼핑몰 사이트 DOM 구조 분석 및 데이터 추출",
-                    "사용자 검색 키워드에 따른 최저가 정렬 기능 제공",
-                    "HTML/CSS를 활용한 간단한 웹 프론트엔드 구성"
-                ],
-                role: [
-                    "크롤링 엔진 핵심 로직 구현",
-                    "데이터 파싱 및 정제 처리"
-                ],
+                blockDiagramUrl: "",
+                resultImages: [],
                 tags: ["Python", "HTML", "Crawling"]
             },
             "receipt": {
                 title: "스마트 영수증",
                 period: "2025.05 ~ 2025.06 (1명 / 개인 프로젝트)",
                 summary: "OCR 기술을 활용하여 종이 영수증을 디지털 데이터로 변환하는 시스템입니다.",
+                description: `[개발 환경]
+- **Language:** Python
+- **Libraries:** OpenCV, Tesseract OCR, Pandas
+- **Platform:** PC Application
+
+[프로젝트 개요]
+종이 영수증을 카메라로 촬영하거나 스캔한 이미지를 입력받아, 텍스트 정보를 추출하고 자동으로 가계부 데이터로 변환하는 프로그램입니다. 이미지 전처리 기술을 통해 인식률을 높였습니다.`,
+                details: [
+                    { text: "<b>Image Preprocessing:</b> OpenCV를 이용한 GrayScale 변환, 이진화(Thresholding), 노이즈 제거" },
+                    { text: "<b>Perspective Transform:</b> 영수증의 외곽선을 검출하여 기울어진 이미지를 평면으로 보정" },
+                    { text: "<b>OCR Engine:</b> Google Tesseract API를 활용하여 이미지 내 텍스트 추출" },
+                    { text: "<b>Text Mining:</b> 정규표현식(Regex)을 이용해 날짜, 상호명, 총액 등 핵심 정보 파싱" }
+                ],
+                role: [
+                    "<b>Algorithm Design:</b> 전체 이미지 처리 파이프라인 설계 및 구현",
+                    "<b>Optimization:</b> 영수증 인식률 향상을 위한 전처리 파라미터 튜닝",
+                    "<b>Application:</b> 파싱된 데이터를 엑셀(CSV) 파일로 내보내는 기능 구현"
+                ],
+                verification: [
+                    "<b>Accuracy Test:</b> 다양한 환경(조명, 구겨짐)에서 촬영된 영수증 샘플 50장에 대한 인식률 테스트",
+                    "<b>Functional Test:</b> 추출된 금액 데이터의 합계와 실제 영수증 총액 일치 여부 검증"
+                ],
                 troubleshooting: {
                     issue: "기울어진 영수증 이미지 인식률이 낮았습니다.",
                     solution: "OpenCV의 기하학적 변환 기능을 활용하여 영수증 외곽선을 검출하고 평면으로 펴주는 전처리 과정을 추가하여 인식률을 높였습니다."
@@ -1300,22 +1745,36 @@
                 reflections: "이미지 처리 기술이 실생활 문제를 해결하는 데 어떻게 쓰일 수 있는지 확인했습니다. OCR 엔진의 한계를 전처리 알고리즘으로 보완하며 문제 해결 능력을 길렀습니다.",
                 docUrl: "", 
                 github: "https://github.com/ahnyouhan",
-                details: [
-                    "Google Tesseract OCR 엔진 활용",
-                    "이미지 전처리(OpenCV)를 통한 인식률 향상",
-                    "추출된 텍스트에서 날짜, 금액, 상호명 파싱 알고리즘 구현",
-                    "월별 지출 내역 통계 기능 제공"
-                ],
-                role: [
-                    "전체 프로젝트 기획 및 개발",
-                    "이미지 처리 알고리즘 최적화"
-                ],
+                blockDiagramUrl: "",
+                resultImages: [],
                 tags: ["Python", "AI", "OCR"]
             },
             "parking": {
                 title: "스마트 주차장",
                 period: "2024.11 ~ 2024.12 (3명 / 팀 프로젝트)",
                 summary: "컴퓨터 비전을 활용한 실시간 주차 공간 인식 및 관제 시스템입니다.",
+                description: `[개발 환경]
+- **Language:** Python
+- **Libraries:** OpenCV, NumPy
+- **Hardware:** CCTV Camera / Webcam
+
+[프로젝트 개요]
+CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하고 사용자에게 안내하는 시스템입니다. 딥러닝 없이 전통적인 컴퓨터 비전 기술을 활용하여 가벼운 연산으로 구현했습니다.`,
+                details: [
+                    { text: "<b>ROI Selection:</b> 주차 공간 영역(Region of Interest)을 설정하는 인터페이스 구현" },
+                    { text: "<b>Image Processing:</b> Canny Edge Detection 및 Gaussian Blur를 통한 영상 전처리" },
+                    { text: "<b>Occupancy Detection:</b> 설정된 ROI 내의 픽셀 변화량 및 엣지 밀도를 분석하여 차량 유무 판별" },
+                    { text: "<b>Dashboard:</b> 실시간 주차 현황(전체 공간, 빈 공간)을 시각적으로 표시" }
+                ],
+                role: [
+                    "<b>Core Logic:</b> OpenCV 기반의 주차 공간 인식 알고리즘 개발",
+                    "<b>Optimization:</b> 조명 변화에 강건한 알고리즘을 만들기 위한 임계값(Threshold) 자동화 연구",
+                    "<b>Integration:</b> 영상 입력부터 결과 출력까지의 전체 시스템 통합"
+                ],
+                verification: [
+                    "<b>Field Test:</b> 실제 주차장 영상을 입력으로 사용하여 주간/야간 인식률 테스트",
+                    "<b>Stress Test:</b> 장시간 가동 시 메모리 누수 및 프레임 저하 여부 확인"
+                ],
                 troubleshooting: {
                     issue: "조명 변화에 따라 주차 라인 인식 오류가 발생했습니다.",
                     solution: "적응형 임계값 처리(Adaptive Thresholding)를 적용하여 다양한 환경에서도 강건하게 동작하도록 개선했습니다."
@@ -1323,22 +1782,37 @@
                 reflections: "컴퓨터 비전 프로젝트를 수행하며 영상 데이터 처리의 어려움과 재미를 동시에 느꼈습니다. 실시간성을 보장하기 위해 알고리즘 최적화에 많은 노력을 기울였습니다.",
                 docUrl: "", 
                 github: "https://github.com/ahnyouhan",
-                details: [
-                    "OpenCV를 활용한 주차 라인 및 차량 인식",
-                    "Canny Edge Detection 및 Hough Transform 알고리즘 적용",
-                    "실시간 빈 주차 공간 현황 대시보드 구현",
-                    "차량 번호판 인식(LPR) 기초 구현"
-                ],
-                role: [
-                    "영상 처리 알고리즘 구현 (차량 유무 판별)",
-                    "시스템 통합 테스트"
-                ],
+                blockDiagramUrl: "",
+                resultImages: [],
                 tags: ["Python", "AI", "Computer Vision"]
             },
             "omok": {
                 title: "멀티 플레이 오목 게임",
                 period: "2019.08 (1명 / 개인 프로젝트)",
                 summary: "Windows API와 소켓 프로그래밍을 활용한 네트워크 오목 게임입니다.",
+                description: `[개발 환경]
+- **Language:** C / C++
+- **Libraries:** WinAPI (GDI), Windows Sockets (Winsock2)
+- **Tool:** Visual Studio
+
+[프로젝트 개요]
+윈도우 환경에서 실행되는 네트워크 기반 오목 게임입니다. TCP/IP 소켓 통신을 직접 구현하여 두 사용자가 실시간으로 대전을 즐길 수 있으며, 채팅 기능도 지원합니다.`,
+                details: [
+                    { text: "<b>Network Core:</b> Winsock을 이용한 TCP Server/Client 구조 설계 및 패킷 통신 구현" },
+                    { text: "<b>Game Logic:</b> 3-3 금지 룰을 포함한 오목 승패 판정 알고리즘 구현" },
+                    { text: "<b>Multi-threading:</b> 게임 진행 데이터 처리와 채팅 메시지 수신을 위한 스레드 분리" },
+                    { text: "<b>GUI Implementation:</b> WinAPI GDI를 활용하여 바둑판, 돌, UI 요소 직접 드로잉" }
+                ],
+                role: [
+                    "<b>Full Stack Dev:</b> 서버 네트워크 아키텍처 설계부터 클라이언트 UI 구현까지 전담",
+                    "<b>Packet Design:</b> 게임 상태 동기화를 위한 효율적인 바이너리 패킷 구조 설계",
+                    "<b>Optimization:</b> 더블 버퍼링 기법을 적용하여 화면 깜빡임 제거"
+                ],
+                verification: [
+                    "<b>Connectivity Test:</b> 로컬 네트워크 및 외부 네트워크 환경에서의 접속 테스트",
+                    "<b>Latency Test:</b> 패킷 전송 후 상대방 화면에 돌이 놓이기까지의 지연 시간 측정",
+                    "<b>Rule Check:</b> 다양한 승리/반칙 케이스에 대한 알고리즘 정확도 검증"
+                ],
                 troubleshooting: {
                     issue: "네트워크 지연으로 인해 턴 동기화 문제가 발생할 때가 있었습니다.",
                     solution: "패킷 구조를 최적화하고, TCP의 Nagle 알고리즘을 비활성화하여 반응 속도를 개선했습니다."
@@ -1346,16 +1820,8 @@
                 reflections: "네트워크 프로그래밍의 기초를 탄탄히 다질 수 있었습니다. 동기화, 스레드 관리 등 멀티플레이 게임 개발에 필요한 핵심 개념들을 직접 구현해보며 깊이 있게 이해했습니다.",
                 docUrl: "", 
                 github: "https://github.com/ahnyouhan",
-                details: [
-                    "TCP/IP 소켓 통신을 이용한 1:1 대전 기능",
-                    "WinAPI를 활용한 게임 그래픽 및 UI 구현",
-                    "멀티스레딩을 이용한 채팅 및 게임 데이터 동시 처리",
-                    "오목 승리 판정 알고리즘 구현 (33 금지 등)"
-                ],
-                role: [
-                    "서버/클라이언트 네트워크 구조 설계",
-                    "게임 로직 및 UI 전체 구현"
-                ],
+                blockDiagramUrl: "",
+                resultImages: [],
                 tags: ["C", "WinAPI", "Socket"]
             }
         };
@@ -1368,13 +1834,14 @@
 
             document.getElementById("modal-title").textContent = data.title;
             document.getElementById("modal-meta").textContent = data.period;
-            document.getElementById("modal-summary").textContent = data.summary;
+            // [수정] summary에 HTML 태그(<b> 등)가 적용되도록 innerHTML 사용, 줄바꿈 처리
+            document.getElementById("modal-summary").innerHTML = data.summary.replace(/\n/g, '<br>');
             
-            // GitHub 링크 설정 (없으면 기본 링크)
+            // GitHub 링크 설정
             const githubBtn = document.getElementById("modal-github-link");
             githubBtn.href = data.github || "https://github.com/ahnyouhan";
 
-            // 1. 태그 처리 (헤더 영역의 아래로 배치)
+            // 1. 태그 처리
             const tagsContainer = document.getElementById("modal-tags");
             tagsContainer.innerHTML = "";
             data.tags.forEach(tag => {
@@ -1390,23 +1857,124 @@
             if (data.role) {
                 data.role.forEach(item => {
                     const li = document.createElement("li");
-                    li.textContent = item;
+                    li.innerHTML = item;
                     roleList.appendChild(li);
                 });
             }
-
-            // 3. 상세 내용 처리 (순서 변경: 위로 이동)
-            const detailsList = document.getElementById("modal-details");
-            detailsList.innerHTML = "";
-            if (data.details) {
-                data.details.forEach(item => {
-                    const li = document.createElement("li");
-                    li.textContent = item;
-                    detailsList.appendChild(li);
-                });
+            // [추가] 역할 이미지 처리
+            const roleImg = document.getElementById("modal-role-img");
+            if(data.roleImg) {
+                roleImg.src = data.roleImg;
+                roleImg.parentElement.style.display = "block";
+            } else {
+                roleImg.parentElement.style.display = "none";
             }
 
-            // 4. 트러블슈팅 처리 (Issue / Solution 분리)
+            // 3. 상세 설명 처리 -> [수정] 개발 환경 및 개요
+            const descriptionSection = document.getElementById("modal-description-section");
+            if (data.description) {
+                let descHtml = data.description
+                    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // **text** -> <b>text</b>
+                    .replace(/\n/g, '<br>'); // 줄바꿈 -> <br>
+                
+                document.getElementById("modal-description").innerHTML = descHtml;
+                descriptionSection.style.display = "block";
+            } else {
+                descriptionSection.style.display = "none";
+            }
+             // [추가] 상세 설명 이미지 처리
+             const descImg = document.getElementById("modal-description-img");
+            if(data.descriptionImg) {
+                descImg.src = data.descriptionImg;
+                descImg.parentElement.style.display = "block";
+            } else {
+                descImg.parentElement.style.display = "none";
+            }
+
+            // 4. 상세 내용 처리 -> [수정] 주요 구현 내용 (이미지 포함)
+            const detailsContainer = document.getElementById("modal-details-container");
+            detailsContainer.innerHTML = ""; // 기존 내용 초기화
+
+            if (data.details) {
+                data.details.forEach(item => {
+                    const itemWrapper = document.createElement("div");
+                    itemWrapper.className = "detail-item";
+
+                    // [수정 포인트] 이미지 처리를 텍스트 처리보다 먼저 작성하여(위로 올려서) 사진이 먼저 나오게 함
+                    // 이미지 처리 (객체이고 img 속성이 있을 때만)
+                    if (typeof item === 'object' && item.img) {
+                        const img = document.createElement("img");
+                        img.src = item.img;
+                        img.className = "detail-image";
+                        img.alt = "Detail Illustration";
+                        itemWrapper.appendChild(img);
+                    }
+
+                    // 텍스트 처리
+                    const textP = document.createElement("p");
+                    textP.className = "detail-text";
+                    // item이 객체라면 item.text, 문자열이면 그대로 사용 (호환성)
+                    textP.innerHTML = typeof item === 'object' ? item.text : item;
+                    itemWrapper.appendChild(textP);
+
+                    detailsContainer.appendChild(itemWrapper);
+                });
+            }
+             
+            // 5. 블록도 처리 (삭제됨: HTML에서 제거했으므로 로직도 제거)
+
+            // 6. 결과 이미지 (갤러리) 처리
+            const gallerySection = document.getElementById("modal-gallery-section");
+            const galleryContainer = document.getElementById("modal-gallery");
+            galleryContainer.innerHTML = "";
+
+            if (data.resultImages && data.resultImages.length > 0) {
+                data.resultImages.forEach(imgUrl => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'gallery-item';
+                    
+                    const link = document.createElement('a');
+                    link.href = imgUrl;
+                    link.target = "_blank"; 
+                    
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    img.alt = "Project Result";
+                    
+                    link.appendChild(img);
+                    itemDiv.appendChild(link);
+                    galleryContainer.appendChild(itemDiv);
+                });
+                gallerySection.style.display = "block";
+            } else {
+                gallerySection.style.display = "none";
+            }
+
+            // 7. 검증 및 성과 처리
+            const verificationList = document.getElementById("modal-verification");
+            verificationList.innerHTML = "";
+            const verificationSection = document.getElementById("modal-verification-section");
+
+            if (data.verification && data.verification.length > 0) {
+                data.verification.forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerHTML = item;
+                    verificationList.appendChild(li);
+                });
+                verificationSection.style.display = "block";
+            } else {
+                verificationSection.style.display = "none";
+            }
+             // [추가] 검증 이미지 처리
+             const verificationImg = document.getElementById("modal-verification-img");
+            if(data.verificationImg) {
+                verificationImg.src = data.verificationImg;
+                verificationImg.parentElement.style.display = "block";
+            } else {
+                verificationImg.parentElement.style.display = "none";
+            }
+
+            // 8. 트러블슈팅 처리
             const troubleshootingSection = document.getElementById("modal-troubleshooting-section");
             if (data.troubleshooting && data.troubleshooting.issue && data.troubleshooting.solution) {
                 document.getElementById("modal-issue").textContent = data.troubleshooting.issue;
@@ -1416,16 +1984,16 @@
                 troubleshootingSection.style.display = "none";
             }
 
-            // 5. 고찰(Reflections) 처리
+            // 9. 고찰 처리
             const reflectionsSection = document.getElementById("modal-reflections-section");
             if (data.reflections) {
-                document.getElementById("modal-reflections").textContent = data.reflections;
+                document.getElementById("modal-reflections").innerHTML = data.reflections.replace(/\n/g, '<br>');
                 reflectionsSection.style.display = "block";
             } else {
                 reflectionsSection.style.display = "none";
             }
 
-            // 6. 문서(PDF/PPT) 처리
+            // 10. 문서 처리 (맨 아래)
             const docSection = document.getElementById("modal-doc-section");
             const docFrame = document.getElementById("modal-doc-frame");
             if (data.docUrl) {
@@ -1433,15 +2001,21 @@
                 docSection.style.display = "block";
             } else {
                 docSection.style.display = "none";
-                docFrame.src = ""; // 초기화
+                docFrame.src = "";
             }
 
             modal.classList.add("show");
+            setTimeout(() => {
+                const modalBody = document.querySelector(".modal-body");
+                if (modalBody) {
+                    modalBody.scrollTop = 0;
+                }
+            }, 0);
         }
 
+        // ... 기존 닫기 및 이벤트 리스너 코드 유지 ...
         function closeModal() {
             modal.classList.remove("show");
-            // 모달 닫을 때 iframe src 초기화
             setTimeout(() => {
                 document.getElementById("modal-doc-frame").src = "";
             }, 300);
@@ -1453,65 +2027,42 @@
             }
         }
 
-        /* [보안] 키보드 단축키 방지 스크립트 */
         document.addEventListener('keydown', function(e) {
-            // Ctrl+U (소스 보기) 방지
-            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
-                e.preventDefault();
-            }
-            // Ctrl+S (저장) 방지
-            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
-                e.preventDefault();
-            }
-            // Ctrl+A (전체 선택) 방지
-            if (e.ctrlKey && (e.key === 'a' || e.key === 'A')) {
-                e.preventDefault();
-            }
-            // Ctrl+C (복사) 방지
-            if (e.ctrlKey && (e.key === 'c' || e.key === 'C')) {
-                e.preventDefault();
-            }
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) e.preventDefault();
+            if (e.ctrlKey && (e.key === 'a' || e.key === 'A')) e.preventDefault();
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'C')) e.preventDefault();
         });
 
-        // 부드러운 스크롤 (Custom Animation)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
                 const targetId = this.getAttribute('href');
+                if (!targetId || !targetId.startsWith('#')) return;
                 
-                // [수정] 목표 스크롤 위치 계산
-                let targetPosition = 0; // 기본값 0: href="#" (Home)일 때 맨 위로 이동
+                e.preventDefault();
+                let targetPosition = 0;
 
                 if (targetId !== '#') {
                     const targetElement = document.querySelector(targetId);
-                    if (!targetElement) return; // 타겟이 없으면 중단
-
-                    const headerOffset = 70; // 네비게이션 바 높이 보정
+                    if (!targetElement) return;
+                    const headerOffset = 70; 
                     const elementPosition = targetElement.getBoundingClientRect().top;
-                    // 현재 스크롤 위치 + 요소의 상대 위치 - 헤더 높이
                     targetPosition = elementPosition + window.pageYOffset - headerOffset;
                 }
 
                 const startPosition = window.pageYOffset;
                 const distance = targetPosition - startPosition;
-                const duration = 500; // 0.5초 동안 이동
+                const duration = 500;
                 let start = null;
 
                 function step(timestamp) {
                     if (!start) start = timestamp;
                     const progress = timestamp - start;
-                    // Ease-in-out 가속도 함수
                     const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-                    
                     const y = startPosition + distance * ease(Math.min(progress / duration, 1));
-                    
                     window.scrollTo(0, y);
-
-                    if (progress < duration) {
-                        window.requestAnimationFrame(step);
-                    }
+                    if (progress < duration) window.requestAnimationFrame(step);
                 }
-
                 window.requestAnimationFrame(step);
             });
         });
