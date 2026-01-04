@@ -487,6 +487,7 @@
         /* --- Projects Layout --- */
         .project-card {
             background: white; 
+            align-items: stretch;
             border: none;
             border-radius: 20px;
             margin-bottom: 3.5rem; 
@@ -495,7 +496,8 @@
             display: flex; 
             overflow: hidden;
             cursor: pointer;
-            height: 280px;
+            height: auto !important;
+            min-height: 280px; /* [수정] 기본 최소 높이 설정 (원하는 크기로 조절) */
             position: relative;
         }
         .menu-toggle {
@@ -1242,8 +1244,7 @@
                         <span class="tag">SR04</span>
                     </div>
                     <p class="project-desc">
-                        STM32F4 기반 임베디드 시스템으로
-                        UART 통신, 타이머 인터럽트, 버튼 입력, LCD 디스플레이, 초음파 센서(SR04)를 통합하여 <b>시계·스톱워치·거리 측정 기능</b>을 구현한 펌웨어 프로젝트
+                        STM32F4 기반 임베디드 시스템으로 UART 통신, 타이머 인터럽트, 버튼 입력, LCD 디스플레이, 초음파 센서(SR04)를 통합하여 <b>시계·스톱워치·거리 측정 기능</b>을 구현한 펌웨어 프로젝트
                     </p>
                     <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
                 </div>
