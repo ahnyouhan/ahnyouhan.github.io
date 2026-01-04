@@ -13,7 +13,7 @@
     
     <!-- 2. Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <style>
         /* 3. Gmarket Sans Fonts */
         @font-face {
@@ -437,17 +437,37 @@
 
         .skill-badge {
             font-family: var(--font-subtitle);
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 0.8rem 2rem;
-            border-radius: 16px;
+            display: inline-flex; 
+            align-items: center;      /* 내부 요소 전체 세로 중앙 정렬 */
+            justify-content: center;
+            padding: 0 1.2rem;
+            border-radius: 12px;
             font-size: 1rem; 
-            background-color: #fff; color: var(--text-dark);
+            background-color: #fff; 
+            color: var(--text-dark);
             border: 1px solid #e1e4e8;
             transition: all 0.3s ease;
             cursor: default;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            height: 42px;             
+            gap: 10px; 
+            
+            /* [수정] 아래 두 줄이 핵심입니다 */
+            line-height: normal;      /* 행간을 기본값으로 복구하여 글자 위치 확보 */
+            box-sizing: border-box;   
         }
-        
+
+        .skill-badge i {
+            display: inline-flex;     /* 아이콘을 플렉스 박스로 */
+            align-items: center;
+            justify-content: center;
+            width: 24px; 
+            font-size: 1.25rem;       
+            
+            /* [수정] 개별 위치 조정은 모두 제거합니다 */
+            position: static; 
+            transform: none;
+        }
+      
         .skill-badge:hover {
             border-color: var(--primary-blue);
             color: var(--primary-blue);
@@ -469,10 +489,13 @@
             height: 280px;
             position: relative;
         }
-        
-        @media (min-width: 901px) {
-            .project-card { height: auto; min-height: 260px; }
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
         }
+        
 
         .project-card:hover { 
             transform: translateY(-7px);
@@ -801,7 +824,72 @@
         /* Mobile Layout */
         @media (max-width: 900px) {
             h1 { font-size: 3rem; }
-            .nav-links { display: none; }
+            .nav-links {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                gap: 0;
+
+                display: flex;                  /* ❗ 항상 flex */
+                flex-direction: column;
+
+                position: absolute;
+                top: var(--nav-height);
+                left: 0;
+                width: 100%;
+                background: #fff;
+
+                transform: translateY(-16px);
+                opacity: 0;
+                pointer-events: none;
+
+                transition:
+                    transform 0.35s ease,
+                    opacity 0.25s ease;
+            }
+
+            /* li는 완전히 비워둔다 */
+            .nav-links li {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+            /* a만 버튼 역할 */
+            .nav-links a {
+                box-sizing: border-box;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                height: 56px;
+                width: 100%;
+
+                font-size: 1.05rem;
+                font-weight: 500;
+                color: #333;
+                text-decoration: none;
+
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                background: #fff;
+            }
+
+
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
             .project-card { flex-direction: column; height: auto; }
             
             .project-img-wrapper { 
@@ -855,6 +943,9 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </nav>
 
@@ -874,7 +965,7 @@
                 <a href="https://github.com/ahnyouhan" target="_blank" class="pill-btn">
                     <i class="fab fa-github"></i> GitHub
                 </a>
-                <a href="https://linktr.ee/ahnyouhan" target="_blank" class="pill-btn">
+                <a href="https://drive.google.com/drive/u/0/folders/1S7j9lgY5wZSYp51-6hRCCG2Snlhrsiy0" target="_blank" class="pill-btn">
                     <i class="fas fa-file-alt"></i> Reports
                 </a>
             </div>
@@ -887,8 +978,8 @@
             <h2>About Me</h2>
             <!-- [수정 포인트] 자기소개 멘트 수정 -->
             <p class="profile-text">
-                하드웨어와 소프트웨어를 아우르는 임베디드 개발자입니다.<br>
-                FPGA, RISC-V 설계부터 웹/앱 서비스 개발까지 폭넓은 경험을 보유하고 있습니다.
+                하드웨어 설계와 임베디드 소프트웨어 역량을 쌓고 있는 개발자 안유한입니다.<br>
+                FPGA 기반의 로직 설계와 Embedded C를 활용한 시스템 제어 프로젝트를 통해 실무 환경에 필요한 엔지니어링 기초를 다지고 있습니다.
             </p>
 
             <div class="bio-grid">
@@ -917,22 +1008,6 @@
                         <p>서울시 강서구</p>
                     </div>
                 </div>
-                <!-- 연락처 (전화번호) -->
-                <div class="bio-card">
-                    <div class="bio-icon"><i class="fas fa-phone-alt"></i></div>
-                    <div class="bio-info">
-                        <h4>연락처</h4>
-                        <p>010-9540-7897</p>
-                    </div>
-                </div>
-                <!-- 이메일 -->
-                <div class="bio-card">
-                    <div class="bio-icon"><i class="fas fa-envelope"></i></div>
-                    <div class="bio-info">
-                        <h4>이메일</h4>
-                        <p style="font-size: 0.95rem;">youhanahn@gmail.com</p>
-                    </div>
-                </div>
                 <!-- 학력 -->
                 <div class="bio-card">
                     <div class="bio-icon"><i class="fas fa-graduation-cap"></i></div>
@@ -941,6 +1016,25 @@
                         <p>국립목포대학교<br><span style="font-weight: 700; font-size: 0.95rem;">정보통신공학과</span></p>
                     </div>
                 </div>
+                
+                <!-- 지원 분야 -->
+                <div class="bio-card">
+                    <div class="bio-icon"><i class="fas fa-border-all"></i></div>
+                    <div class="bio-info">
+                        <h4>지원 분야</h4>
+                        <p>FPGA · SoC · Embedded</p>
+                    </div>
+                </div>
+
+                <!-- 이메일 -->
+                <div class="bio-card">
+                    <div class="bio-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="bio-info">
+                        <h4>이메일</h4>
+                        <p style="font-size: 0.95rem;">youhanahn@gmail.com</p>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>
@@ -973,7 +1067,7 @@
                 </div>
                 
                 <div class="timeline-item">
-                    <span class="timeline-date">2023.07.17 - 20232.07.19 (15h)</span>
+                    <span class="timeline-date">2023.07.17 - 2023.07.19 (15h)</span>
                     <h3 class="timeline-title">[IDEC] Verilog를 이용한 디지털 시스템 설계의 기초 수료</h3>
                     <p class="timeline-desc">디지털 시스템 기초 교육 및 간단한 스톱워치 설계</p>
                 </div>
@@ -1014,25 +1108,25 @@
                 <h3>Languages</h3>
                 <div class="skills-container">
                     <!-- [수정 포인트] 기술 스택 (언어) 수정 -->
-                    <div class="skill-badge">C</div>
-                    <div class="skill-badge">Verilog HDL</div>
-                    <div class="skill-badge">SystemVerilog</div>
-                    <div class="skill-badge">C++</div>
-                    <div class="skill-badge">Python</div>
+                    <div class="skill-badge"><i class="devicon-c-plain colored"></i> C</div>
+                    <div class="skill-badge"><i class="fas fa-microchip" style="color: #005A9C;"></i> Verilog HDL</div>
+                    <div class="skill-badge"><i class="fas fa-project-diagram" style="color: #2C5BF0;"></i> SystemVerilog</div>
+                    <div class="skill-badge"><i class="devicon-cplusplus-plain colored"></i> C++</div>
+                    <div class="skill-badge"><i class="devicon-python-plain colored"></i> Python</div>
                 </div>
             </div>
 
             <!-- Category 2: Tools -->
             <div class="skill-category">
-                <h3>Tools</h3>
+                <h3>Platforms & Development</h3>
                 <div class="skills-container">
                     <!-- [수정 포인트] 기술 스택 (도구) 수정 -->
-                    <div class="skill-badge">Vivado</div>
-                    <div class="skill-badge">Vitis</div>
-                    <div class="skill-badge">STM32 CubeIDE</div>
-                    <div class="skill-badge">Linux</div>
-                    <div class="skill-badge">MATLAB</div>
-                </div>
+                    <div class="skill-badge"><i class="fas fa-boxes" style="color: #F44336;"></i> Vivado</div>
+                <div class="skill-badge"><i class="fas fa-terminal" style="color: #333;"></i> Vitis</div>
+                <div class="skill-badge"><i class="fas fa-microchip" style="color: #03234B;"></i> STM32 CubeIDE</div>
+                <div class="skill-badge"><i class="fas fa-microchip" style="color: #4CAF50;"></i> FreeRTOS</div>
+                <div class="skill-badge"><i class="devicon-linux-plain colored"></i> Linux</div>
+                <div class="skill-badge"><i class="fas fa-square-root-alt" style="color: #A52A2A;"></i> MATLAB</div>
             </div>
         </section>
 
@@ -1045,6 +1139,34 @@
             <h2 class="section-title">Hardware Projects</h2>
             
             <!-- Video Filter Project -->
+             <!-- UART Project -->
+            <article class="project-card" onclick="openModal('uart')">
+                <div class="project-img-wrapper img-uart">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-title-group">
+                            <h3 class="project-title">STM32 기반 UART·Timer·센서 통합 시계/스톱워치 시스템</h3>
+                        </div>
+                    </div>
+                    <span class="project-period">2025.12</span>
+
+                    <div class="project-tags">
+                        <span class="tag">STM32</span>
+                        <span class="tag">Embedded C</span>
+                        <span class="tag">UART</span>
+                        <span class="tag">Timer</span>
+                        <span class="tag">SR04</span>
+                    </div>
+                    <p class="project-desc">
+                        STM32F4 기반 임베디드 시스템으로
+                        UART 통신, 타이머 인터럽트, 버튼 입력, LCD 디스플레이, 초음파 센서(SR04)를 통합하여 <b>시계·스톱워치·거리 측정 기능</b>을 구현한 펌웨어 프로젝트
+                    </p>
+                    <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
+                </div>
+            </article>
+
             <article class="project-card" onclick="openModal('video-filter')">
                 <div class="project-img-wrapper img-video">
                     <i class="fas fa-camera"></i>
@@ -1059,8 +1181,9 @@
                     <span class="project-period">2025.11 ~ 2025.12</span>
 
                     <div class="project-tags">
-                        <span class="tag">Verilog</span>
+                        <span class="tag">SystemVerilog</span>
                         <span class="tag">FPGA</span>
+                        <span class="tag">Python</span>
                         <span class="tag">Image Processing</span>
                     </div>
                     <p class="project-desc">실시간 영상 필터(Convex Lens 등) 및 VGA 컨트롤러 구현
@@ -1084,6 +1207,7 @@
 
                     <div class="project-tags">
                         <span class="tag">SystemVerilog</span>
+                        <span class="tag">FPGA</span>
                         <span class="tag">Microblaze</span>
                         <span class="tag">AXI</span>
                     </div>
@@ -1101,22 +1225,21 @@
                 <div class="project-content">
                     <div class="project-header">
                         <div class="project-title-group">
-                            <h3 class="project-title">RISC-V Multi-Cycle CPU & AMBA Bus</h3>
+                            <h3 class="project-title">RISC-V Multi-Cycle CPU & AMBA BUS</h3>
                         </div>
                     </div>
                     <span class="project-period">2025.10</span>
 
                     <div class="project-tags">
                         <span class="tag">SystemVerilog</span>
-                        <span class="tag">C</span>
+                        <span class="tag">FPGA</span>
                         <span class="tag">RISC-V</span>
-                        <span class="tag">AMBA Bus</span>
-                        <span class="tag">APB</span>
-                        <span class="tag">Verification</span>
+                        <span class="tag">AMBA APB</span>
                         <span class="tag">Vitis</span>
+                        <span class="tag">C</span>
                     </div>
                     <p class="project-desc">Multi-Cycle 구조로 Critical Path 개선 및 UART 통신
-                     시스템 제어 C 코드 구현</p>
+                     시스템 제어 C 코드 구현 (GPIO)</p>
                     <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
                 </div>
             </article>
@@ -1148,29 +1271,7 @@
                 </div>
             </article>
 
-            <!-- UART Project -->
-            <article class="project-card" onclick="openModal('uart')">
-                <div class="project-img-wrapper img-uart">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="project-content">
-                    <div class="project-header">
-                        <div class="project-title-group">
-                            <h3 class="project-title">FPGA UART+FIFO 통신 응용 프로젝트</h3>
-                        </div>
-                    </div>
-                    <span class="project-period">2025.08</span>
-
-                    <div class="project-tags">
-                        <span class="tag">Basys3</span>
-                        <span class="tag">UART</span>
-                        <span class="tag">Verilog</span>
-                    </div>
-                    <p class="project-desc">Basys3 FPGA 기반 UART 통신 활용 시계 및 스톱워치 구현
-                    PC와 FPGA 간의 시리얼 통신 프로토콜 설계 및 디버깅</p>
-                    <span class="team-badge"><i class="fas fa-user"></i> 1명 (개인 프로젝트)</span>
-                </div>
-            </article>
+            
         </section>
 
         <!-- Software Projects -->
@@ -1278,7 +1379,6 @@
         <div class="footer-contact">
             <!-- [수정 포인트] 하단 연락처 및 저작권 이름 수정 -->
             <a href="mailto:youhanahn@gmail.com" class="footer-email">youhanahn@gmail.com</a>
-            <p class="footer-phone">010-1234-1234</p>
         </div>
         <p>Copyright © 2025 Youhan Ahn. All rights reserved.</p>
     </footer>
@@ -1326,8 +1426,8 @@
 
                     <!-- 3. 상세 설명 (Description) - New -->
                     <div id="modal-description-section" class="modal-section" style="display:none;">
-                         <!-- 수정됨: 상세 설명 -> 개발 환경 및 개요, 아이콘 변경 -->
-                         <h3><i class="fas fa-laptop-code"></i> 개발 환경 및 개요</h3>
+                         <!-- 수정됨: 상세 설명 -> 개발 환경, 아이콘 변경 -->
+                         <h3><i class="fas fa-laptop-code"></i> 개발 환경</h3>
                          <p id="modal-description" style="white-space: pre-line; color: #444; line-height: 1.7;"></p>
                          <!-- [추가] 상세 설명 섹션 사진 공간 -->
                          <div class="section-img-container">
@@ -1355,16 +1455,23 @@
                          </div>
                     </div>
 
-                    <!-- 7. 검증 및 성과 섹션 (New) -->
+                    <!-- 7. 성과 섹션 (New) -->
                     <div id="modal-verification-section" class="modal-section" style="display:none;">
-                        <h3><i class="fas fa-clipboard-check"></i> 검증 및 성과</h3>
+                        <h3><i class="fas fa-clipboard-check"></i> 성과</h3>
                         <ul id="modal-verification"></ul>
                         <!-- [추가] 검증 섹션 사진 공간 -->
                         <div class="section-img-container">
                             <img id="modal-verification-img" src="" alt="Verification Image">
                         </div>
                     </div>
-
+                    <!-- [추가할 코드] 8. 결과 (Result) 섹션 -->
+                    <div id="modal-result-section" class="modal-section" style="display:none;">
+                        <h3><i class="fas fa-poll-h"></i> 결과</h3>
+                        <ul id="modal-result-list"></ul>
+                        <div class="section-img-container">
+                            <img id="modal-result-img" src="" alt="Result Image">
+                        </div>
+                    </div>
                     <!-- 8. 트러블슈팅 섹션 -->
                     <div id="modal-troubleshooting-section" class="modal-section">
                         <h3><i class="fas fa-tools"></i> 트러블슈팅</h3>
@@ -1390,7 +1497,7 @@
 
                     <!-- 10. 프로젝트 상세 문서 섹션 (PPT/PDF) - 맨 아래 고정 -->
                     <div id="modal-doc-section" class="modal-section" style="display:none; border-top: 2px solid #eee; padding-top: 2rem; margin-top: 4rem;">
-                        <h3><i class="fas fa-file-pdf"></i> 프로젝트 문서 뷰어</h3>
+                        <h3><i class="fas fa-file-pdf"></i> 발표 자료 PDF</h3>
                         <div class="pdf-viewer-container">
                             <iframe id="modal-doc-frame" src="" title="Project Document"></iframe>
                         </div>
@@ -1413,101 +1520,169 @@
         */
         const projectData = {
             "video-filter": {
-                title: "영상 처리 및 필터 구현",
+                title: "FPGA 기반 실시간 영상 처리 및 스티커 사진 시스템",
                 period: "2025.11 ~ 2025.12 (4인 팀 프로젝트)",
-                summary: "실시간 영상 필터(Convex Lens 등) 및 VGA 컨트롤러 구현 프로젝트입니다.",
-                reflections: "이번 프로젝트를 통해 FPGA의 타이밍 제어에 대해 깊이 이해할 수 있었습니다. 특히 라인 버퍼를 설계하며 메모리 대역폭 문제와 실시간 처리의 트레이드오프를 경험했고, 이를 통해 최적화된 아키텍처를 도출해낼 수 있었습니다.",
+                summary: "OV7670 카메라 모듈을 이용해 실시간 영상을 입력받아 하드웨어 레벨(RTL)에서 볼록 렌즈 필터 및 이모지 오버레이를 구현하고, UART 통신을 통해 PC로 이미지를 전송하여 저장하는 시스템입니다.",
+                reflections:`
+                    필터와 필터 이동 로직을 통합하는 과정에서 <b>수동 병합으로 인한 코드 유실</b>을 겪으며 복구에 어려움을 경험하였습니다.
+                    이 과정에서 단순한 기능 구현보다 <b>변경 사항 관리가 프로젝트 안정성에 직접적인 영향을 준다</b>는 점을 체감하였습니다.
+
+                    이러한 시행착오를 통해 단순한 역할 분담을 넘어, <b>변경 사항을 투명하게 관리할 수 있는 시스템의 필요성</b>을 인식하게 되었으며, <b>Git과 같은 형상 관리 도구의 중요성</b>를 명확히 이해하게 되었습니다.
+                    `,
                 troubleshooting: {
-                    issue: "초기 라인 버퍼 설계 시 타이밍 위반 문제가 발생했습니다.",
-                    solution: "파이프라인 단계를 추가하여 경로 지연을 줄이고, 클럭 주파수를 최적화하여 해결했습니다."
+                    issue: "볼록 렌즈 왜곡 연산을 단일 사이클 조합 논리로 처리하면서 타이밍 위반과 LUT/FF 자원 초과 문제가 발생",
+                    solution: "연산을 6-Stage Pipeline 구조로 분리하고, 원본 이미지 복사 대신 주소 왜곡 방식으로 BRAM 사용량을 줄여 문제를 해결"
                 },
-                docUrl: "", 
+                docUrl: "assets/pdf/FPGA기반_볼록렌즈 및 이모지 오버레이_강한호두 사진관.pdf", 
                 
                 // [추가] 각 섹션별 이미지 경로 (비워두면 표시 안 됨)
                 roleImg: "",
                 descriptionImg: "",
                 verificationImg: "",
-
-                github: "https://github.com/ahnyouhan",
+                
+                github: "https://github.com/ahnyouhan/project-VGA_Camera_OV7670-lens-filter",
                 resultImages: [], // 예: ["./assets/images/result1.png", "./assets/images/result2.png"]
-                description: `[개발 환경]
-- **Language:** Verilog HDL
+                description: `
+- **Language:** SystemVerilog, Python
 - **Tool:** Xilinx Vivado
-- **FPGA:** Basys3 / Zybo Z7 (예정)
-
-[아키텍처 개요]
-카메라 모듈로부터 입력받은 RGB 데이터를 FPGA 내부의 Logic으로 실시간 처리하여 VGA/HDMI 모니터로 출력하는 시스템입니다. 단순한 Passthrough를 넘어 Convex Lens 효과와 Grayscale 변환 등의 필터 로직을 하드웨어로 구현했습니다.`,
+- **FPGA:** Basys3
+- **Peripheral:** OV7670 Camera Module, VGA Monitor `,
                 // [수정] details를 객체 배열로 변경하여 각 항목에 이미지를 넣을 수 있게 함
                 details: [
-                    { text: "<b>Camera Interface:</b> I2C 프로토콜을 이용한 카메라 초기화 및 데이터 수신 모듈 구현" },
-                    { text: "<b>Image Processing Core:</b> 실시간 픽셀 연산을 위한 Combinational Logic 설계 (Convex Lens 왜곡 알고리즘 적용)", img: "" }, // 여기에 이미지 경로 추가 가능
-                    { text: "<b>Memory Controller:</b> Line Buffer를 활용하여 실시간 스트리밍 데이터 버퍼링 및 동기화" },
-                    { text: "<b>Display Controller:</b> VGA Timing Generator (HSync, VSync) 설계 및 RGB 출력" }
+                    { text: "<b>Camera Interface:</b> OV7670 제어를 위한 SCCB(I2C 유사) 통신 모듈 및 FSM 설계" },
+                    {
+                        text: "<b>Convex Lens Filter:</b> 고정소수점 기반 왜곡 연산을 6-Stage Pipeline으로 분리하여 실시간 처리 구현",
+                        imgs:[
+                            "assets/images/vga/lens1.png",
+                            "assets/images/vga/lens2.png",
+                            "assets/images/vga/lens3.png",
+                            "assets/images/vga/lens4.png",
+                            "assets/images/vga/lens5.png"
+                        ]
+                    },
+                    { text: "<b>Emoji Overlay:</b> Bounding Box 판정 및 투명도 처리를 포함한 이모지 합성 로직 설계",
+                        imgs:[
+                            "assets/images/vga/i1.png",
+                            "assets/images/vga/i2.png",
+                            "assets/images/vga/i3.png"
+                        ]
+                    },
+                    { text: "<b>UART Transmission:</b> 처리된 프레임을 PC로 전송하여 PNG 파일로 저장" }
                 ],
                 role: [
-                    "<b>Line Buffer 설계:</b> Block RAM(BRAM)을 활용한 3-Line Buffer 구조 설계 및 Read/Write FSM 구현",
-                    "<b>Timing Control:</b> Pixel Clock 생성 및 디스플레이 타이밍 제어 로직 작성",
-                    "<b>Integration:</b> 팀원들이 개발한 필터 모듈을 Top Level에서 통합 및 디버깅"
+                    "강주영: SCCB Protocol 설계, 총괄 디버깅",
+                    "성태호: FPGA-PC UART 통신 설계, Python 기반 캡쳐 프로그램 설계, 발표",
+                    "<b>안유한 (본인): 렌즈 굴절률/크기 로직 설계, 이모지 overlay 필터 설계</b>",
+                    "이준호: 렌즈/이모지 영역 위치 계산 및 이모지 적용 미리보기 설계"
                 ],
-                verification: [
-                    "<b>Simulation:</b> Testbench를 통해 픽셀 데이터의 입출력 타이밍 검증",
-                    "<b>Hardware Test:</b> ILA(Integrated Logic Analyzer)를 활용하여 실제 보드에서의 신호 무결성 확인",
-                    "<b>Visual Verification:</b> 실제 모니터 출력을 통해 필터 적용 여부 및 화질 테스트"
+                result: [
+                    "<b>실시간 영상 처리:</b> VGA 입력 스트림에 대해 볼록 렌즈 및 이모지 필터를 실시간으로 적용",
+                    "<b>자원 최적화:</b> 주소 기반 왜곡 연산으로 BRAM 사용량 최소화 (주소 기반 왜곡 연산은 픽셀 데이터를 수정하는 대신, 왜곡 수식을 통해 메모리에서 읽어올 주소만 변경하여 자원 사용을 줄이고 실시간 처리를 가능하게 하는 방식이다.)",
+                    "<b>하드웨어 검증:</b> 실제 모니터 출력 및 UART 기반 PNG 저장으로 기능 검증"
                 ],
-                tags: ["Verilog", "FPGA", "Image Processing"]
+                tags: ["SystemVerilog", "Verilog HDL", "Python", "Image Processing"]
             },
             "axi-spi": {
                 title: "SPI/I2C 통신 및 AXI 인터페이스 구현",
                 period: "2025.11 (1명 / 개인 프로젝트)",
-                summary: "Microblaze SoC 환경에서 SPI, I2C 통신 IP를 설계하고 검증했습니다.",
+                summary: "대표적인 직렬 통신 프로토콜인 <b>SPI와 I2C IP</b>를 직접 설계하고, Xilinx의 <b>Microblaze</b>와 <b>AXI4-Lite</b> 버스를 통해 연동한 프로젝트입니다. 단순한 파형 검증을 넘어, <b>실제 보드 간(Board-to-Board) 통신</b>을 구현하며 <b>클럭 도메인 교차(CDC)로 인한 타이밍 이슈를 해결</b>하고 시스템 레벨의 통합 동작을 검증하는것을 목표로 하였습니다.",
                 troubleshooting: {
-                    issue: "AXI 인터페이스의 Ready/Valid 핸드쉐이킹 타이밍 불일치로 인한 데이터 손실 문제가 있었습니다.",
-                    solution: "파형 분석을 통해 상태 머신을 수정하여 해결했습니다."
+                    issue: "타이밍 불일치 & glitch: Master 보드와 Slave 보드를 연결하여 테스트할 때, 보드 간 클럭 도메인이 달라 메타스테이블(Metastability) 현상이 발생했고, 이로 인해 데이터가 밀리거나 쓰레기 값(Glitches)이 수신되는 현상이 발생.",
+                    solution: "Synchronizer 회로: Slave 모듈의 입력단(SCLK, MOSI, SS)에 2-Stage Synchronizer(이중 플립플롭) 회로를 추가하여 메타스테이블(Metastability) 현상을 차단하고 신호를 안정화"
                 },
-                reflections: "AMBA 프로토콜을 직접 구현하며 SoC 내부 통신 구조를 깊이 이해했습니다. 특히 마스터와 슬레이브 간의 핸드쉐이킹 과정을 디버깅하며 타이밍 제어의 중요성을 체감했습니다.",
-                docUrl: "", 
-                github: "https://github.com/ahnyouhan",
-                resultImages: [],
-                description: `[개발 환경]
-- **Language:** SystemVerilog, C
-- **IDE:** Vivado, Vitis
-- **Hardware:** FPGA Board (Basys3)
+                reflections: `
+                    이번 SPI·I2C 통신 설계 과정을 통해 디지털 통신 프로토콜은 단순한 회로 연결로 끝나는 것이 아니라,
+                    <b>정확한 타이밍 이해와 FSM 설계 규칙 준수, 그리고 실제 동작 환경까지 함께 고려해야 한다</b>는 점을 체감하였습니다.
+                    특히 I2C는 START/STOP 조건이 명확함에도 불구하고,
+                    <b>마스터 FSM과 C 코드 간의 타이밍 차이</b>로 인해 이론대로만 동작하지 않는다는 한계를 경험하였습니다.
 
-[프로젝트 개요]
-Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습니다. AMBA AXI4-Lite 버스 프로토콜을 준수하여 프로세서가 SPI/I2C 주변 장치를 제어할 수 있도록 인터페이스를 구축했습니다.`,
+                    <b>아쉬운 점:</b> Write 동작 안정화에 많은 시간이 소요되어 <b>Read 사이클까지 구현을 완성하지 못했으며</b>,
+                    <b>마스터 FSM과 펌웨어 간 타이밍을 완전히 제어하지 못한 점</b>이 한계로 남았습니다.
+                    또한 <b>시간 제약으로 인해 UVM 기반 검증을 진행하지 못하고</b>,
+                    파형 중심의 기능 검증에 그친 점이 아쉬움으로 남았습니다.`,
+                docUrl: "assets/pdf/spi_i2c_axi.pdf", 
+                github: "https://github.com/ahnyouhan/project-AXI4_Lite-SPI_I2C.git",
+                resultImages: [],
+                description: `****
+                - **Language:** SystemVerilog
+                - **Tools** Vivado, Vitis
+                - **FPGA:** Basys3 (Artix-7) 2대
+                `,
                 details: [
-                    { text: "<b>AXI4-Lite Interface:</b> Master(CPU)의 Read/Write 요청을 처리하는 Slave Interface Logic 구현" },
-                    { text: "<b>SPI Master:</b> CPOL, CPHA 모드를 지원하는 직렬 통신 로직 및 Shift Register 설계" },
-                    { text: "<b>I2C Master:</b> Start/Stop Condition, ACK 체크를 포함한 2-Wire 통신 FSM 설계" },
-                    { text: "<b>Driver Development:</b> Vitis 환경에서 해당 IP를 제어하기 위한 C언어 펌웨어 작성" }
+                    {
+                        text: 
+                        `<b>SPI vs I2C 프로토콜 비교 분석 및 구현</b><br>
+                        - <b>SPI (Serial Peripheral Interface):</b> 4선식(MOSI, MISO, SCLK, SS)을 사용하는 <b>전이중(Full-Duplex)</b> 통신 방식으로, CPOL/CPHA 모드 설정에 따른 고속 데이터 전송 로직을 설계했습니다.<br>
+                        - <b>I2C (Inter-Integrated Circuit):</b> 2선식(SDA, SCL)만 사용하는 <b>Open Drain</b> 구조의 특성(풀업 저항 필수)을 이해하고, 별도 칩 선택(CS) 핀 없이 <b>7비트 주소</b>와 <b>ACK/NACK</b> 핸드쉐이킹을 통한 제어 방식을 구현했습니다.`
+                    },
+                    {
+                        text: `<b>SPI Protocol Design</b><br>
+                        - <b>구조:</b> 4선식(SCLK, MOSI, MISO, SS) <b>전이중(Full-Duplex)</b> 통신 구조 구현.<br>
+                        - <b>Multi-Mode 지원:</b> CPOL(Clock Polarity)과 CPHA(Clock Phase) 설정에 따른 <b>4가지 동작 모드(Mode 0~3)</b>를 완벽하게 지원하는 Master/Slave FSM 설계.<br>
+                        - <b>동작 원리:</b> Shift Register를 이용하여 1 클럭당 1비트씩 데이터를 교환하며, Master FSM은 <b>IDLE → CP0 → CP1 → CP_DELAY</b> 상태를 천이하며 타이밍을 제어.`
+                    },
+                    {
+                        img:"assets/images/axi/spi_top.png",
+                        text: `<b>전체 시스템 구성</b><br>
+                        이 시스템은 크게 <b>Master(왼쪽 파란색 영역)</b>와 <b>Slave(오른쪽 초록색 영역)</b> 두 개의 모듈로 구성.<br>
+                        - <b>Master:</b> 사용자의 입력(스위치/버튼)을 받아 데이터를 생성하고, SPI 통신을 시작하여 Slave로 데이터를 전송.<br>
+                        - <b>Slave:</b> Master가 보낸 데이터를 수신하여 처리하고, 그 결과를 FND(7-Segment Display)에 출력.<br>
+                        <b>1. Master 모듈 구성 요소</b>
+                        - <b>UP_Counter & Control Unit:</b> 시스템의 두뇌 역할입니다. Run/Stop, Clear 입력에 따라 1씩 증가하는 8비트 데이터(tx_data)를 생성하고, 통신 시작(start) 신호를 제어.<br>.
+                        - <b>SPI_Master (Core Logic):</b> 병렬 데이터를 직렬(1-bit)로 변환하여 전송합니다. SCLK(클럭), MOSI(데이터 송신), SS(슬레이브 선택) 신호를 생성하여 프로토콜을 수행.<br>
+                        <b>2. Slave 모듈 구성 요소</b>
+                        - <b>SPI_Slave (Core Logic):</b> SCLK의 엣지에 맞춰 MOSI 핀으로 들어오는 비트를 샘플링하여 다시 8비트 병렬 데이터로 복원합니다. (Master와 Slave 간 클럭 도메인 차이를 해결하기 위해 입력단에 <b>Synchronizer</b> 적용)<br>
+                        - <b>FND Controller & Decoder:</b> 수신된 데이터를 디코딩하고, <b>다이내믹 구동(Dynamic Driving)</b> 방식을 사용하여 4자리 FND에 카운터 값을 시각적으로 출력.
+                        `
+                    },
+
+                    {
+                        text: `<b>I2C Protocol Design</b><br>
+                        - <b>Inter-Integrated Circuit:</b> SDA, SCL만을 사용하여 통신하는 직렬 통신 프로토콜, 반이중 통신.
+                        - <b>Start/Stop Condition:</b> SCL이 High일 때 SDA의 엣지 변화를 감지하여 트랜잭션 시작/종료 처리.
+                        - <b>ACK/NACK 응답:</b> 데이터 수신 성공/실패 여부를 피드백하여 신뢰성 확보. 
+                        - <b>오픈-드레인 구조:</b> 풀업 저항이 필수이며, 여러 장치 연결 및 클럭 스트레칭 지원. 
+                        - <b>FSM 설계:</b> <b>IDLE → START → DATA → ACK → STOP</b> 순으로 진행되는 상태 머신을 통해 안정적인 1바이트 전송 사이클을 구현.`,
+                        img: "assets/images/axi/i2c.png"
+                    },
+                    {
+                        img:"assets/images/axi/i2c_top.png",
+                        text: `<b>전체 시스템 구성 (Write 기능 구현)</b><br>
+                        MicroBlaze가 AXI 레지스터를 통해 Master의 컨트롤, 입출력, 상태 레지스터를 제어하고, SCL/SDA로 Basys3 I2C Slave와 데이터를 교환하여 C 로직이 이를 처리하는 구조<br>
+                        - <b>Master:</b> CPU(MicroBlaze)가 AXI4-Lite 버스를 통해 I2C Master IP를 제어
+                        - <b>Slave:</b> Basys3 FPGA 내부에 구현된 I2C Slave 로직과 그 위의 C Application<br>`
+                    }
                 ],
                 role: [
-                    "<b>RTL Design:</b> SystemVerilog를 이용한 AXI Slave 및 통신 프로토콜 모듈 전체 설계",
-                    "<b>Verification:</b> Testbench 및 AXI Verification IP(VIP)를 활용한 시뮬레이션",
-                    "<b>On-Board Test:</b> Microblaze 시스템에 IP 통합 후 실제 센서 데이터 수신 테스트"
+                    "<b>RTL Design:</b> SPI/I2C Master & Slave (Write) 모듈, AXI4-Lite Wrapper 설계",
+                    "<b>Verification:</b> Testbench 시뮬레이션",
+                    "<b>Two-Board Test:</b>SPI 통신 10000-Counter 기능을 구현하여 버튼 기능 제어로 실제 데이터 수신 테스트"
                 ],
-                verification: [
-                    "<b>Simulation:</b> Vivado Simulator에서 AXI 트랜잭션 파형 분석",
-                    "<b>Loopback Test:</b> TX/RX 핀을 물리적으로 연결하여 데이터 송수신 무결성 검증",
-                    "<b>Sensor Interfacing:</b> 실제 가속도 센서 및 온도 센서와 연결하여 데이터 Read 확인"
+                result: [
+                            "<b>SPI Communication:</b> Master/Slave FSM을 직접 설계하여 보드 2대 간 SPI 통신 구현, CPOL/CPHA 4가지 모드에 대해 정상 동작 확인",
+                            "<b>Hardware Debugging:</b> 보드 2대 사용 시 발생한 데이터 깨짐 문제를 타이밍 충돌로 분석하고, Slave 측 Synchronizer 회로 추가로 안정화",
+                            "<b>I2C Architecture:</b> MicroBlaze + AXI4-Lite 기반 I2C Master 구조 설계 및 레지스터 제어 방식 구현",
+                            "<b>I2C Write Operation:</b> START/ADDR/DATA/ACK/STOP 시퀀스를 FSM으로 구현하고 시뮬레이션에서 정상 파형 검증",
+                            "<b>System-Level Issue:</b> I2C 통신에서 HW FSM과 C Application 간 타이밍 불일치로 주소 밀림 버그 발생 이로인해 I2C Read 사이클 및 Slave Application 연동까지 완성하지 못함",
                 ],
-                tags: ["SystemVerilog", "Microblaze", "AXI"]
+                
+                tags: ["SystemVerilog", "FPGA", "Microblaze", "AXI"]
             },
             "risc-v-multi": {
-                title: "RISC-V Multi-Cycle CPU & AMBA Bus",
+                title: "RISC-V Multi-Cycle CPU & AMBA BUS",
                 period: "2025.10 (1명 / 개인 프로젝트)",
                 summary: [
                     "<b>1. 프로젝트 개요</b>",
-                    " 기존 Single-Cycle의 단점을 보완 하고자 <b>Multi-Cycle구조로 설계 및 검증</b>을하고 표준 버스 프로토콜인  AMBA APB를 통해 UART 통신 모듈을 연동하여, 최종적으로 <b>하드웨어와 소프트웨어가 통합된 시스템</b> 구현하였습니다.\n",
+                    " 기존 Single-Cycle의 단점을 보완 하고자 <b>Multi-Cycle 구조로 설계 및 검증</b>을하고 표준 버스 프로토콜인 AMBA APB를 통해 UART 통신 모듈을 연동하여, 최종적으로 <b>하드웨어와 소프트웨어가 통합된 시스템</b> 구현.\n",
                     "<b>2. 개발 목표</b>",
                     "- 기존 Single-Cycle 프로세서의 긴 <b>Critical Path</b> 문제를 해결하기 위해 <b>Multi-Cycle 구조</b>로 확장 설계.",
                     "- 버스 시스템 구축: <b>AMBA APB 버스 시스템</b>을 구축하여 CPU와 <b>주변장치(Peripheral) 간의 인터페이스 구현</b>.",
                     "- UART 통합: UART IP를 설계하고 APB 버스에 연결하여 <b>외부 PC(ComPortMaster)와의 시리얼 통신 기능 구현.</b>",
-                    "- 소프트웨어 개발: 설계된 <b>SoC 시스템 제어를 위한 C 코드</b> 개발"
+                    "- 소프트웨어: Memory Mapped I/O 방식을 통해 <b>C언어 포인터로 하드웨어 레지스터(Status, TxData, RxData)를 제어</b>하는 펌웨어를 개발하여 LED 제어 및 PC 통신을 수행."
                 ].join("\n"),
-                description: `
+                description:  `****
 - **Language:** SystemVerilog, C
-- **IDE:** Xilinx Vivado, Vitis
+- **Tools** Xilinx Vivado, Vitis
 - **FPGA:** Basys3 (Artix-7)
 `,
                 details: [
@@ -1519,17 +1694,30 @@ Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습
                     },
                     {
                         text: [
-                            "<b>AMBA APB Bus</b> 설계",
-                            "- <b>목적: </b>MCU가 제어해야 하는 UART, 센서 등 <b>저속 주변 장치를 효율적으로 제어</b>하기 위해 표준 인터페이스인 <b>APB(Advanced Peripheral Bus) 프로토콜을 구현</b>했습니다.",
-                            "- <b>동작 원리: Master와 Slave 간의 통신</b>을 위해 <b>IDLE, SETUP, ACCESS</b> 상태를 갖는 FSM을 설계하였으며, <b>PSEL, PENABLE, PREADY</b> 등의 신호를 이용해 데이터 읽기/쓰기 트랜잭션을 제어합니다."
+                            "<b>AMBA APB BUS</b> 설계",
+                            "- <b>목적: </b>MCU가 제어해야 하는 UART, 센서 등 <b>저속 주변 장치를 효율적으로 제어</b>하기 위해 표준 인터페이스인 <b>APB(Advanced Peripheral Bus) 프로토콜을 구현</b>.",
+                            "- <b>동작 원리: Master와 Slave 간의 통신</b>을 위해 <b>IDLE, SETUP, ACCESS</b> 상태를 갖는 FSM을 설계하였으며, <b>PSEL, PENABLE, PREADY</b> 등의 신호를 이용해 데이터 읽기/쓰기 트랜잭션을 제어."
                         ].join("\n\n"),
                         img: "assets/images/risc-v_multi/fsm.png"
+                    },
+                    
+                    {
+                        text: [
+                            "<b>Write Transfer\n",
+                        ].join("\n"),
+                        img: "assets/images/risc-v_multi/write.png"
+                    },
+                    {
+                        text: [
+                            "<b>Read Transfer\n",
+                        ].join("\n"),
+                        img: "assets/images/risc-v_multi/read.png"
                     },
                     {
                         text: [
                             "<b>UART Peripheral 및 FIFO</b> 설계\n",
-                            "<b>- 통합: </b><b>APB Slave Interface를 갖춘 UART 모듈을 설계</b>하여 시스템 버스에 연동했습니다.",
-                            "<b>- 기능</b>: 데이터 송수신의 안정성을 위해 <b>TX/RX FIFO를 내장</b>했습니다.\n",
+                            "<b>- 통합: </b><b>APB Slave Interface를 갖춘 UART 모듈을 설계</b>하여 시스템 버스에 연동.",
+                            "<b>- 기능</b>: 데이터 송수신의 안정성을 위해 <b>TX/RX FIFO 설계.\n",
                             "<b>- 레지스터 맵:</b>",
                             "TxData (0x0): 송신 데이터 버퍼 (Write).",
                             "RxData (0x4): 수신 데이터 버퍼 (Read Only).",
@@ -1541,40 +1729,42 @@ Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습
                         text:[
                             "<b>검증 및 소프트웨어 (C Code)\n",
                             "<b>검증: </b>Transaction, Driver, Monitor</b> 구조를 갖춘 테스트벤치를 통해 APB-UART 통신의 데이터를 검증했습니다(Pass/Fail 판정).\n",
-                            "<b>소프트웨어: </b>UART로 수신된 <b>명령어('L', 'R', '0')에 따라 LED 모드(좌/우 시프트)를 변경</b>하거나 <b>GPIO를 제어하는 C 코드</b>를 작성하여 실제 보드에서의 동작을 확인했습니다. 스위치 입력에 따른 디바운싱 및 엣지 디텍션 로직도 포함되었습니다."
+                            "<b>소프트웨어: </b>UART로 수신된 <b>명령어('L', 'R', '0')에 따라 LED 모드(좌/우 시프트)를 변경</b>하거나 <b>GPIO를 제어하는 C 코드</b>를 작성하여 실제 보드에서의 동작을 확인. 스위치 입력에 따른 디바운싱 및 엣지 디텍션 로직도 포함."
                         ].join("\n")
                     }
                 ],
                 role: [
-                    "<b>RTL 설계:</b> RISC-V <b>Multi-cycle Core</b>, <b>APB Bus</b>, <b>UART+FIFO Peripheral</b> 설계.",
+                    "<b>RTL 설계:</b> RISC-V <b>Multi-Cycle Core</b>, <b>APB Bus</b>, <b>UART+FIFO Peripheral</b> 설계.",
                     "<b>검증 : Class 기반 검증</b> 환경 구성",
                     "<b>펌웨어 설계: 하드웨어 제어를 위한 C 코드</b> 작성"
                 ],
-                verification: [
-                    "<b>Transaction Based Verification:</b> AHB 프로토콜의 Read/Write 트랜잭션 단위 검증 수행",
-                    "<b>Timing Simulation:</b> Multi-Cycle 동작 시 클럭 엣지에 따른 신호 안정성 및 Setup/Hold Time 위반 여부 확인",
+                result: [
+                    "<b>FPGA 기반 SoC 시스템 통합 및 동작 구현</b>",
+                    "<b>- 통합 시스템 구현:</b> 직접 설계한 RISC-V Multi-Cycle Core, AMBA APB 버스, UART 및 GPIO 주변 장치를 하나로 통합 구현.",
+                    "<b>- 실시간 하드웨어 제어:</b> C언어 펌웨어를 통해 UART로 수신된 명령어('L', 'R', '0')와 스위치 입력에 따라 LED 모드(좌/우 시프트, GPIO 제어)를 실시간으로 제어",
                     "<b>FPGA Prototyping:</b> Basys3 보드에 비트스트림을 업로드하여 실제 I/O 동작(스위치 입력, LED 출력) 확인"
                 ],
-                troubleshooting: {
-                    issue: "AHB 버스의 HREADY 신호 처리 미숙으로 인해 Slave가 준비되지 않은 상태에서 데이터가 넘어가는 타이밍 오류 발생",
-                    solution: "Master의 FSM에 Wait State를 추가하고, HREADYout 신호를 모니터링하여 데이터 페이즈(Data Phase)를 지연시키는 로직을 추가하여 핸드쉐이킹 문제를 해결함"
-                },
-                reflections: "표준 버스 프로토콜을 직접 구현해보며 SoC 내부 통신의 핵심인 <b>핸드쉐이킹(Handshaking)과 타이밍 제어</b>의 중요성을 깊이 이해했습니다. 또한, Single-Cycle에서 Multi-Cycle로의 전환 과정을 통해 <b>Trade-off(면적 vs 속도)</b> 관계를 체감하고 아키텍처 설계에 대한 시야를 넓혔습니다.",
+                
+                reflections: [
+                    "이번 프로젝트는 <b>RV32I CPU 코어에 APB 버스와 UART, GPIO</b> 등 직접 설계한 주변 장치를 연결하여 MCU 수준의 통합 시스템을 구현하는 경험이었습니다.",
+                    "APB 프로토콜 학습과 FIFO를 이용한 하드웨어 설계, 그리고 <b>C 코드를 통한 소프트웨어 제어</b>를 함께 경험하며 시스템 동작 원리를 체감했습니다.",
+                    "특히 APB 타이밍과 UART FIFO 버그 등 <b>실제 설계 이슈를 테스트벤치와 C 코드 디버깅으로 해결</b>하면서, 검증의 중요성과 하드웨어/소프트웨어 통합 설계 능력의 필요성을 느꼈습니다."
+                ].join("\n\n"),
                 docUrl: "assets/pdf/RISC-V_AMBA_Peripheral_Design.pdf", 
                 github: "https://github.com/ahnyouhan/project-RISC-V_APB_GPO_I_IO_UART", // 필요시 수정
                 resultImages: [],
-                tags: ["SystemVerilog", "C", "RISC-V", "AMBA Bus", "APB", "Verification", "Vitis"]
+                tags: ["SystemVerilog", "FPGA", "RISC-V", "AMBA APB", "Vitis", "C"]
             },
             "risc-v": {
                 title: "RISC-V RV32I Single-Cycle CPU",
                 period: "2025.09 ~ 2025.10 (3명 / 팀 프로젝트)",
                 summary: [
-                    "<b>1. 프로젝트 소개</b>\n본 프로젝트는 <b>SystemVerilog</b>를 사용하여 오픈소스 명령어 집합 구조(ISA)인 <b>RISC-V 기반의 32-bit Single Cycle 프로세서(RV32I)</b>를 설계하고, 신뢰성 높은 동작 검증을 위해 Transaction 기반의 자동화된 검증 환경을 구축한 하드웨어 설계 프로젝트입니다",
+                    "<b>1. 프로젝트 소개</b>\n본 프로젝트는 <b>SystemVerilog</b>를 사용하여 오픈소스 명령어 집합 구조(ISA)인 <b>RISC-V 기반의 32-bit Single Cycle 프로세서(RV32I)</b>를 설계하고, 신뢰성 높은 동작 검증을 위해 Transaction 기반의 자동화된 검증 환경을 구축한 하드웨어 설계 프로젝트입니다.",
                     "<b>2. 개발 목표</b>\n- RISC-V RV32I의 <b>R, I, S, B, U, J Type</b>을 하드웨어로 구현\n- 구조적 설계: <b>제어 장치(Control Unit)와 데이터 경로(DataPath)를 분리</b>하여 명령어 인출(Fetch)부터 실행(Execute), 쓰기(Write Back)까지의 5단계 흐름을 <b>단일 사이클(Single Cycle)</b> 내에 최적화하여 설계. \n- <b>Generator→Driver→Monitor→Scoreboard</b>로 이어지는 계층적 테스트벤치(Layered Testbench)를 구축하여 <b>Pass/Fail</b>을 자동 판별하는 검증 시스템 구현"
                 ].join("\n\n"),
-                description: `
+                description:  `****
 - **Language:** SystemVerilog
-- **IDE:** Xilinx Vivado
+- **Tools** Xilinx Vivado
 - **FPGA:** Basys3 (Artix-7)`,
                 details: [
                     { 
@@ -1605,8 +1795,8 @@ Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습
                     "김태형: <b>S, L 타입 검증</b>",
                     "<b>안유한(본인): L, J 타입 검증<b>"
                 ],
-                verification: [
-                    "<b>RISC-V RV32I CPU</b>: SystemVerilog를 사용하여 제어 장치(Control Unit)와 데이터 경로(DataPath)를 포함한 32비트 프로세서의 하드웨어 설계를 완성 ",
+                result: [
+                    "<b>RISC-V RV32I CPU</b>: SystemVerilog를 사용하여 제어 장치(Control Unit)와 데이터 경로(DataPath)를 포함한 32비트 프로세서의 하드웨어 설계를 완성하였습니다 ",
                     "<b>Instruction Verification:</b> R, I, S, L, J 명령어 타입에 대한 랜덤 테스트를 수행하여 100% 통과(Pass)하였습니다.",
                     "<b>자동화 검증 환경 구축:</b> 랜덤 명령어 생성부터 결과 비교까지 자동으로 수행하는 계층적 테스트벤치(Generator-Driver-Monitor-Scoreboard)를 구축하여 신뢰성을 확보했습니다.",
                     "<b>타이밍 이슈 해결:</b> Load 명령어 검증 시 발생한 신호 지연 문제를 1ns 딜레이 추가를 통해 해결하며 설계의 완성도를 높였습니다 ."
@@ -1625,61 +1815,82 @@ Xilinx의 Soft Processor인 Microblaze와 연동되는 Custom IP를 설계했습
                 tags: ["Verilog", "FPGA", "Computer Architecture", "RISC-V", "Verification"]
             },
             "uart": {
-                github: "https://github.com/ahnyouhan/project-UART-Stopwatch_Watch",
-                title: "FPGA UART+FIFO 통신 응용 프로젝트",
-                period: "2025.08.23 ~ 2025.08.27 (1명 / 개인 프로젝트)",
-                summary:[
-                    "PC와 FPGA 간의 UART 시리얼 통신을 통해 스톱워치 및 시계 기능을 제어하는 시스템입니다.",
-                    ""
+                github: "https://github.com/ahnyouhan/project-STM32-StopWatch-Watch-SR04.git",
+                title: "STM32 기반 UART·Timer·센서 통합 시계/스톱워치 시스템",
+                period: "2025.12.19 ~ 2025.12.23 (1명 / 개인 프로젝트)",
+                summary:`
+                STM32F411RE 마이크로컨트롤러에서 UART 통신, 타이머 인터럽트, 초음파 센서(SR04), LCD 및 FND 디스플레이를 통합하여     시계(TimeWatch)와 스톱워치(StopWatch)를 상태 기반으로 제어하는 임베디드 시스템을 구현한 프로젝트입니다.
+                단순 제어가 아닌, Timer Interrupt와 FSM 구조를 활용하여 안정적인 시간 관리와 시스템 동작을 목표로 설계하였습니다.
+                `,
 
-                ].join("\n"),
-
-                description: `**[개발 환경]**
-- **Language:** Verilog HDL
-- **Tool:** Xilinx Vivado
-- **FPGA:** Basys3 (Artix-7)
-
-[프로젝트 개요]
-UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미널과 데이터를 주고받습니다. 수신된 명령어에 따라 FPGA 내부의 스톱워치/시계 로직을 제어하고, 현재 시간을 7-Segment Display로 출력합니다.`,
+                description: `
+                - **MCU:** STM32F411RE
+                - **Language:** C
+                - **Tool:** STM32CubeIDE
+                - **Peripherals:** UART, TIM, GPIO
+                - **Devices:** LCD, FND, HC-SR04 Sensor`,
                 // [수정] details 항목에 이미지 경로를 넣을 수 있도록 객체로 변경. 예시로 첫 번째 항목에 이미지 공간 마련.
                 details: [
+                    {
+                        text:
+                            `<b>임베디드 시스템 아키텍처 설계</b><br>
+                            Application Layer에서 Stopwatch / TimeWatch / Distance 측정 로직을 분리하고, HAL Driver 계층을 통해 GPIO, TIM, I2C 자원을 제어하는 구조로 설계하였다.
+                            각 기능은 Button, FND, LCD, SR04 Driver 단위로 모듈화하여 유지보수성을 고려하였다.
+                            `,
+                            img:"assets/images/sw/diagram.png"
+                    },
                     { 
-                        text: "<b>Baud Rate Generator:</b> 100MHz 시스템 클럭을 분주하여 9600bps 통신 속도에 맞는 Sampling Tick 생성",
+                        text: "<b>Interrupt 기반 시간 관리:</b> 하드웨어 Timer 인터럽트를 이용하여 시계(TimeWatch)와 스톱워치(StopWatch)의 시간 흐름을 독립적으로 관리",
                         img: "" // 여기에 이미지 경로 입력
                     },
                     { 
-                        text: "<b>UART Transceiver:</b> Start bit, Data bits(8), Stop bit를 처리하는 RX/TX FSM 설계 및 FIFO 버퍼 적용",
+                        text: "<b>상태 머신(FSM) 구조:</b> TIME / STOPWATCH / MODIFY 상태로 동작 모드를 분리하여 버튼 입력 및 기능 간 충돌 방지",
                         img: "" 
                     },
-                    { text: "<b>Command Decoder:</b> 'r'(Run/Stop), 'c'(Clear), 'S/M/H'(Set Time) 등의 ASCII 코드를 해석하여 제어 신호 생성" },
-                    { text: "<b>Watch/Stopwatch Core:</b> 1/100초 단위 정밀 타이머 로직 및 모드 전환 기능 구현" }
+                    { text: "<b>UART 통신:</b> PC 터미널과의 UART 통신을 통해 시스템 상태 확인 및 디버깅 수행" },
+                    {
+                        text: "<b>디스플레이 제어:</b> LCD를 통한 상태 정보 출력과 FND를 이용한 실시간 숫자 표시 병행"
+                    },
+                    {
+                        text: "<b>모듈 분리 설계:</b> Button, FND, LCD, Sensor, Watch 기능을 파일 단위로 분리하여 유지보수성과 확장성 확보"
+                    }
+
                 ],
                 role: [
-                    "<b>RTL Design:</b> UART 통신 모듈 및 데이터 처리 로직 전체 설계",
-                    "<b>Testbench:</b> PC와의 통신 시나리오를 가정한 시뮬레이션 환경 구축",
-                    "<b>Validation:</b> TeraTerm을 이용한 실제 PC 통신 및 보드 동작 검증"
+                    "Timer Interrupt 기반 시간 관리 로직 설계",
+                    "시계(TimeWatch) / 스톱워치(StopWatch) FSM 구조 설계",
+                    "UART, 버튼 입력, 초음파 센서, 디스플레이 통합",
+                    "코드 모듈화 및 동작 디버깅"
                 ],
-                verification: [
-                    "<b>Loopback Test:</b> PC에서 보낸 문자가 FPGA를 거쳐 다시 PC로 정확히 돌아오는지 확인",
-                    "<b>Timing Analysis:</b> 오실로스코프로 TX 핀의 파형을 찍어 Baud Rate 정확도 측정",
-                    "<b>Functional Test:</b> 다양한 키보드 입력에 따른 스톱워치 동작 반응성 확인"
+                result: [
+                    "<b>안정적인 시간 관리:</b> 인터럽트 기반 설계로 Polling 방식 대비 시간 오차 최소화",
+                    "<b>비동기 이벤트 처리:</b> 버튼 입력, UART 통신, 센서 측정을 동시에 처리 가능한 구조 구현",
+                    "<b>시스템 통합 경험:</b> MCU 주변장치를 개별 제어가 아닌 하나의 시스템으로 통합 설계",
+                    "<b>확장 가능 구조:</b> 기능 추가 시 FSM 상태 확장만으로 대응 가능한 구조 확보"
                 ],
                 troubleshooting: {
-                    issue: "Baud Rate 오차로 인한 통신 깨짐 현상이 있었습니다.",
-                    solution: "FPGA 클럭 주파수에 맞춰 분주비를 정밀하게 재계산하여 오차율을 허용 범위(±2%) 이내로 줄여 통신 안정성을 확보했습니다."
+                    issue: "Polling 기반 구조에서 기능이 증가하면서 시간 오차 및 동작 충돌 문제가 발생",
+                    solution: "Timer Interrupt와 상태 머신 구조로 전환하여 시간 관리와 이벤트 처리를 분리함으로써 시스템 안정성 확보"
                 },
-                reflections: "비동기 시리얼 통신의 원리를 확실히 익혔습니다. 하드웨어 레벨에서 통신 프로토콜을 구현하며 데이터 송수신 타이밍과 동기화 이슈를 다루는 경험이 되었습니다.",
+                reflections: `
+                    이번 프로젝트를 통해 임베디드 시스템은 단순히 주변장치를 연결하는 것이 아니라,
+                    <b>시간 흐름을 어떻게 정의하고 관리하느냐가 전체 시스템 안정성을 좌우한다</b>는 점을 체감하였습니다.
+
+                    Timer Interrupt와 FSM 구조를 도입하면서
+                    <b>각 기능을 독립적으로 유지하면서도 하나의 시스템으로 통합</b>할 수 있었고,
+                    임베디드 시스템 설계에서 구조적 판단의 중요성을 명확히 이해하게 되었습니다.
+                `,
                 docUrl: "", 
                 
                 // [수정 포인트] 블록도 이미지 경로
                 resultImages: [],
-                tags: ["Basys3", "UART", "Verilog"]
+                tags: ["STM32", "Embedded C", "UART", "Timer", "SR04"]
             },
             "fitness": {
                 title: "피트니스 아이템 통합 검색기",
                 period: "2025.07 (4명 / 팀 프로젝트)",
                 summary: "여러 쇼핑몰의 피트니스 용품 가격을 비교해주는 웹 크롤링 서비스입니다.",
-                description: `[개발 환경]
+                description: `
 - **Language:** Python, HTML/CSS
 - **Libraries:** Selenium, BeautifulSoup, Flask
 - **Platform:** Web Browser
@@ -1696,7 +1907,7 @@ UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미�
                     "<b>Crawling Logic:</b> 주요 쇼핑몰(쿠팡, 네이버 쇼핑 등) DOM 구조 분석 및 크롤링 스크립트 작성",
                     "<b>Data Cleaning:</b> 가격 정보의 문자열 처리 및 중복 데이터 제거 로직 구현"
                 ],
-                verification: [
+                result: [
                     "<b>Unit Test:</b> 각 쇼핑몰별 파싱 로직에 대한 단위 테스트 수행",
                     "<b>E2E Test:</b> 실제 검색 키워드 입력부터 결과 출력까지의 전체 흐름 검증",
                     "<b>Performance Test:</b> 다중 스레딩 적용 전후의 데이터 수집 속도 비교"
@@ -1716,7 +1927,7 @@ UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미�
                 title: "스마트 영수증",
                 period: "2025.05 ~ 2025.06 (1명 / 개인 프로젝트)",
                 summary: "OCR 기술을 활용하여 종이 영수증을 디지털 데이터로 변환하는 시스템입니다.",
-                description: `[개발 환경]
+                description: `
 - **Language:** Python
 - **Libraries:** OpenCV, Tesseract OCR, Pandas
 - **Platform:** PC Application
@@ -1734,7 +1945,7 @@ UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미�
                     "<b>Optimization:</b> 영수증 인식률 향상을 위한 전처리 파라미터 튜닝",
                     "<b>Application:</b> 파싱된 데이터를 엑셀(CSV) 파일로 내보내는 기능 구현"
                 ],
-                verification: [
+                result: [
                     "<b>Accuracy Test:</b> 다양한 환경(조명, 구겨짐)에서 촬영된 영수증 샘플 50장에 대한 인식률 테스트",
                     "<b>Functional Test:</b> 추출된 금액 데이터의 합계와 실제 영수증 총액 일치 여부 검증"
                 ],
@@ -1753,7 +1964,7 @@ UART 시리얼 통신을 FPGA에 하드웨어로 직접 구현하여 PC 터미�
                 title: "스마트 주차장",
                 period: "2024.11 ~ 2024.12 (3명 / 팀 프로젝트)",
                 summary: "컴퓨터 비전을 활용한 실시간 주차 공간 인식 및 관제 시스템입니다.",
-                description: `[개발 환경]
+                description: `
 - **Language:** Python
 - **Libraries:** OpenCV, NumPy
 - **Hardware:** CCTV Camera / Webcam
@@ -1771,7 +1982,7 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                     "<b>Optimization:</b> 조명 변화에 강건한 알고리즘을 만들기 위한 임계값(Threshold) 자동화 연구",
                     "<b>Integration:</b> 영상 입력부터 결과 출력까지의 전체 시스템 통합"
                 ],
-                verification: [
+                result: [
                     "<b>Field Test:</b> 실제 주차장 영상을 입력으로 사용하여 주간/야간 인식률 테스트",
                     "<b>Stress Test:</b> 장시간 가동 시 메모리 누수 및 프레임 저하 여부 확인"
                 ],
@@ -1790,7 +2001,7 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                 title: "멀티 플레이 오목 게임",
                 period: "2019.08 (1명 / 개인 프로젝트)",
                 summary: "Windows API와 소켓 프로그래밍을 활용한 네트워크 오목 게임입니다.",
-                description: `[개발 환경]
+                description: `
 - **Language:** C / C++
 - **Libraries:** WinAPI (GDI), Windows Sockets (Winsock2)
 - **Tool:** Visual Studio
@@ -1808,7 +2019,7 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                     "<b>Packet Design:</b> 게임 상태 동기화를 위한 효율적인 바이너리 패킷 구조 설계",
                     "<b>Optimization:</b> 더블 버퍼링 기법을 적용하여 화면 깜빡임 제거"
                 ],
-                verification: [
+                result: [
                     "<b>Connectivity Test:</b> 로컬 네트워크 및 외부 네트워크 환경에서의 접속 테스트",
                     "<b>Latency Test:</b> 패킷 전송 후 상대방 화면에 돌이 놓이기까지의 지연 시간 측정",
                     "<b>Rule Check:</b> 다양한 승리/반칙 케이스에 대한 알고리즘 정확도 검증"
@@ -1870,7 +2081,7 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                 roleImg.parentElement.style.display = "none";
             }
 
-            // 3. 상세 설명 처리 -> [수정] 개발 환경 및 개요
+            // 3. 상세 설명 처리 -> [수정] 개발 환경
             const descriptionSection = document.getElementById("modal-description-section");
             if (data.description) {
                 let descHtml = data.description
@@ -1908,6 +2119,15 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                         img.className = "detail-image";
                         img.alt = "Detail Illustration";
                         itemWrapper.appendChild(img);
+                    }
+                    if (typeof item === 'object' && item.imgs && Array.isArray(item.imgs)) {
+                        item.imgs.forEach(src => {
+                            const img = document.createElement("img");
+                            img.src = src;
+                            img.className = "detail-image";
+                            img.alt = "Detail Image";
+                            itemWrapper.appendChild(img);
+                        });
                     }
 
                     // 텍스트 처리
@@ -1950,7 +2170,7 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                 gallerySection.style.display = "none";
             }
 
-            // 7. 검증 및 성과 처리
+            // 7. 성과 처리
             const verificationList = document.getElementById("modal-verification");
             verificationList.innerHTML = "";
             const verificationSection = document.getElementById("modal-verification-section");
@@ -1965,6 +2185,21 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
             } else {
                 verificationSection.style.display = "none";
             }
+            const resultList = document.getElementById("modal-result-list");
+            const resultSection = document.getElementById("modal-result-section");
+            resultList.innerHTML = ""; // 초기화
+
+            if (data.result && data.result.length > 0) {
+                data.result.forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerHTML = item;
+                    resultList.appendChild(li);
+                });
+                resultSection.style.display = "block";
+            } else {
+                resultSection.style.display = "none";
+            }
+
              // [추가] 검증 이미지 처리
              const verificationImg = document.getElementById("modal-verification-img");
             if(data.verificationImg) {
@@ -2064,6 +2299,35 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
                     if (progress < duration) window.requestAnimationFrame(step);
                 }
                 window.requestAnimationFrame(step);
+            });
+        });
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                // 메뉴 열기/닫기 (active 클래스 토글)
+                navLinks.classList.toggle('active');
+                
+                // 아이콘 변경 (삼발이 메뉴 <-> X 버튼)
+                const icon = this.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
+
+        // 메뉴 링크 클릭 시 메뉴 닫기 (이동 후에도 열려있는 현상 방지)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
     </script>
