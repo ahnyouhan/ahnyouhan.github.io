@@ -980,8 +980,30 @@
             .timeline-item {
                 margin-bottom: 2rem; /* 아이템 간 간격 축소 */
             }
+            .pdf-viewer-container {
+                height: 300px; 
+                margin-bottom: 1.5rem;
+            }
+
+            /* PDF를 새 창에서 크게 볼 수 있는 전용 버튼 스타일 */
+            .mobile-pdf-link {
+                display: flex !important; /* 모바일에서만 표시 */
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                background-color: var(--primary-blue);
+                color: white;
+                text-decoration: none;
+                padding: 1rem;
+                border-radius: 12px;
+                font-weight: 700;
+                margin-top: 1rem;
+                box-shadow: 0 4px 12px rgba(44, 91, 240, 0.2);
+            }
         }
-        
+        .mobile-pdf-link {
+            display: none;
+        }
         @media (max-width: 600px) {
             .bio-grid { grid-template-columns: 1fr; }
         }
@@ -1560,6 +1582,9 @@
                     <!-- 10. 프로젝트 상세 문서 섹션 (PPT/PDF) - 맨 아래 고정 -->
                     <div id="modal-doc-section" class="modal-section" style="display:none; border-top: 2px solid #eee; padding-top: 2rem; margin-top: 4rem;">
                         <h3><i class="fas fa-file-pdf"></i> 발표 자료 PDF</h3>
+                        <a href="#" id="modal-pdf-mobile-btn" class="mobile-pdf-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> 전체화면으로 크게 보기
+                        </a>
                         <div class="pdf-viewer-container">
                             <iframe id="modal-doc-frame" src="" title="Project Document"></iframe>
                         </div>
@@ -2293,9 +2318,12 @@ CCTV 영상을 분석하여 주차장의 빈 공간을 실시간으로 감지하
             // 10. 문서 처리 (맨 아래)
             const docSection = document.getElementById("modal-doc-section");
             const docFrame = document.getElementById("modal-doc-frame");
+            const pdfMobileBtn = document.getElementById("modal-pdf-mobile-btn"); // 버튼 추가
             if (data.docUrl) {
                 docFrame.src = data.docUrl;
+                pdfMobileBtn.href = data.docUrl; // 모바일 버튼에도 링크 연결
                 docSection.style.display = "block";
+                
             } else {
                 docSection.style.display = "none";
                 docFrame.src = "";
